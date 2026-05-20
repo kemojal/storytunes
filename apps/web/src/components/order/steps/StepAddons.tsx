@@ -22,7 +22,7 @@ export function StepAddons() {
               onClick={() => toggleInArray('addons', a.value)}
               className={cn(
                 'flex items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors',
-                selected ? 'border-primary ring-2 ring-primary/30' : 'border-input hover:border-primary/50',
+                selected ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft' : 'border-input hover:border-primary/50',
               )}
             >
               <span className="text-sm">{a.label}</span>

@@ -23,7 +23,7 @@ export function StepPackage() {
                 onClick={() => setField('package_type', p.value)}
                 className={cn(
                   'flex flex-col rounded-xl border p-5 text-left transition-colors',
-                  selected ? 'border-primary ring-2 ring-primary/30' : 'border-input hover:border-primary/50',
+                  selected ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft' : 'border-input hover:border-primary/50',
                 )}
               >
                 <div className="flex items-baseline justify-between">

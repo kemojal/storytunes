@@ -65,7 +65,7 @@ export function StepArtist() {
                   onClick={() => setField('artist_id', a.id)}
                   className={cn(
                     'flex gap-3 rounded-xl border p-4 text-left transition-colors',
-                    selected ? 'border-primary ring-2 ring-primary/30' : 'border-input hover:border-primary/50',
+                    selected ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft' : 'border-input hover:border-primary/50',
                   )}
                 >
                   <div className="size-12 shrink-0 rounded-full bg-muted" aria-hidden />
