@@ -14,9 +14,14 @@ function MyOrders() {
 
   return (
     <div className="space-y-7">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">My orders</h1>
-        <Button asChild className="rounded-full">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl">My orders</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Track production and download your songs.
+          </p>
+        </div>
+        <Button asChild className="shrink-0 rounded-full">
           <Link to="/order">+ New song</Link>
         </Button>
       </div>
