@@ -41,9 +41,9 @@ function AdminSamples() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Samples</h1>
+      <h1 className="font-display text-2xl">Samples</h1>
 
-      <div className="flex flex-wrap items-end gap-3 rounded-xl border p-5">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
         <div className="flex-1">
           <label className="text-sm font-medium">Title</label>
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -57,7 +57,7 @@ function AdminSamples() {
         </Button>
       </div>
 
-      <div className="divide-y rounded-xl border">
+      <div className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-soft">
         {samples.length === 0 && (
           <div className="p-6 text-center text-muted-foreground">No samples yet.</div>
         )}

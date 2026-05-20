@@ -27,7 +27,7 @@ function AdminRevisions() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Revisions</h1>
+      <h1 className="font-display text-2xl">Revisions</h1>
 
       {revisions.length === 0 ? (
         <div className="rounded-xl border p-8 text-center text-muted-foreground">
@@ -36,7 +36,7 @@ function AdminRevisions() {
       ) : (
         <div className="space-y-3">
           {revisions.map((r) => (
-            <div key={r.id} className="rounded-xl border p-5">
+            <div key={r.id} className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
               <div className="flex items-center justify-between">
                 <Link
                   to="/admin/orders/$orderId"

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { fetchAdminOrders } from '#/lib/server/admin'
 import { ORDER_STATUSES } from '#/lib/order/statuses'
 import { StatusBadge } from '#/components/order/status'
-import { formatUsd } from '#/lib/order/constants'
+import { formatUsd, titleCase } from '#/lib/order/constants'
 
 type Search = { status?: string }
 
@@ -19,15 +19,21 @@ function AdminOrders() {
   const orders = Route.useLoaderData()
   const { status } = Route.useSearch()
 
+  const chip =
+    'rounded-full border border-border/60 px-3 py-1 text-xs capitalize transition-colors hover:border-gold/50 hover:bg-accent [&.active]:border-primary [&.active]:bg-primary [&.active]:text-primary-foreground'
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Orders</h1>
+      <div className="flex items-end justify-between">
+        <h1 className="font-display text-2xl">Orders</h1>
+        <span className="text-sm text-muted-foreground">{orders.length} shown</span>
+      </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         <Link
           to="/admin/orders"
           search={{}}
-          className="rounded-full border px-3 py-1 text-xs hover:bg-accent [&.active]:bg-primary [&.active]:text-primary-foreground"
+          className={chip}
           activeOptions={{ exact: true, includeSearch: true }}
         >
           All
@@ -37,7 +43,7 @@ function AdminOrders() {
             key={s}
             to="/admin/orders"
             search={{ status: s }}
-            className="rounded-full border px-3 py-1 text-xs hover:bg-accent [&.active]:bg-primary [&.active]:text-primary-foreground"
+            className={chip}
             activeOptions={{ includeSearch: true }}
           >
             {s.replace(/_/g, ' ')}
@@ -45,10 +51,10 @@ function AdminOrders() {
         ))}
       </div>
 
-      <div className="divide-y rounded-xl border">
+      <div className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-soft">
         {orders.length === 0 && (
-          <div className="p-8 text-center text-muted-foreground">
-            No orders{status ? ` with status “${status}”` : ''}.
+          <div className="p-10 text-center text-muted-foreground">
+            No orders{status ? ` with status “${status.replace(/_/g, ' ')}”` : ''}.
           </div>
         )}
         {orders.map((o) => (
@@ -56,14 +62,15 @@ function AdminOrders() {
             key={o.id}
             to="/admin/orders/$orderId"
             params={{ orderId: o.id }}
-            className="flex items-center justify-between px-5 py-4 hover:bg-accent"
+            className="flex items-center justify-between gap-3 px-5 py-3.5 transition-colors hover:bg-accent/50"
           >
-            <div>
-              <div className="font-medium">
-                {o.order_number} — {o.recipient_name}
+            <div className="min-w-0">
+              <div className="truncate font-medium">
+                {o.recipient_name}{' '}
+                <span className="font-normal text-muted-foreground">· {o.order_number}</span>
               </div>
-              <div className="text-xs text-muted-foreground">
-                {o.occasion} · {o.package_type} · {formatUsd(o.price_cents)}
+              <div className="mt-0.5 truncate text-xs text-muted-foreground">
+                {titleCase(o.occasion)} · {titleCase(o.package_type)} · {formatUsd(o.price_cents)}
               </div>
             </div>
             <StatusBadge status={o.status} />

@@ -70,11 +70,11 @@ function AdminOrderDetail() {
       {/* main */}
       <div className="space-y-6 lg:col-span-2">
         <div>
-          <Link to="/admin/orders" className="text-sm text-muted-foreground hover:underline">
+          <Link to="/admin/orders" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
             ← All orders
           </Link>
           <div className="mt-2 flex items-center justify-between">
-            <h1 className="text-2xl font-semibold">{order.order_number}</h1>
+            <h1 className="font-display text-2xl">{order.order_number}</h1>
             <StatusBadge status={order.status} />
           </div>
           <p className="text-sm text-muted-foreground">
@@ -85,8 +85,8 @@ function AdminOrderDetail() {
         </div>
 
         {/* brief / story */}
-        <section className="space-y-2 rounded-xl border p-5">
-          <h2 className="font-medium">Story</h2>
+        <section className="space-y-2 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <h2 className="font-display text-lg">Story</h2>
           <p className="whitespace-pre-wrap text-sm text-muted-foreground">
             {order.story || '—'}
           </p>
@@ -97,9 +97,9 @@ function AdminOrderDetail() {
         </section>
 
         {/* lyrics editor */}
-        <section className="space-y-3 rounded-xl border p-5">
+        <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
           <div className="flex items-center justify-between">
-            <h2 className="font-medium">Lyrics {latest ? `(v${latest.version}, ${latest.status})` : ''}</h2>
+            <h2 className="font-display text-lg">Lyrics {latest ? `(v${latest.version}, ${latest.status})` : ''}</h2>
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -123,7 +123,7 @@ function AdminOrderDetail() {
           {latest ? (
             <>
               <input
-                className="w-full rounded-md border px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-border/60 bg-background px-3 py-2 text-sm"
                 placeholder="Song title"
                 value={lyricsTitle}
                 onChange={(e) => setLyricsTitle(e.target.value)}
@@ -163,8 +163,8 @@ function AdminOrderDetail() {
         </section>
 
         {/* files */}
-        <section className="space-y-3 rounded-xl border p-5">
-          <h2 className="font-medium">Files</h2>
+        <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <h2 className="font-display text-lg">Files</h2>
           {order.files.length === 0 && (
             <p className="text-sm text-muted-foreground">No files uploaded.</p>
           )}
@@ -203,10 +203,10 @@ function AdminOrderDetail() {
 
       {/* sidebar */}
       <div className="space-y-6">
-        <section className="space-y-3 rounded-xl border p-5">
-          <h2 className="font-medium">Status</h2>
+        <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <h2 className="font-display text-lg">Status</h2>
           <select
-            className="w-full rounded-md border px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-border/60 bg-background px-3 py-2 text-sm"
             value={order.status}
             disabled={busy !== null}
             onChange={(e) =>
@@ -223,8 +223,8 @@ function AdminOrderDetail() {
           </select>
         </section>
 
-        <section className="space-y-3 rounded-xl border p-5">
-          <h2 className="font-medium">Internal notes</h2>
+        <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <h2 className="font-display text-lg">Internal notes</h2>
           <Textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
           <Button
             size="sm"
@@ -240,8 +240,8 @@ function AdminOrderDetail() {
           </Button>
         </section>
 
-        <section className="space-y-2 rounded-xl border p-5">
-          <h2 className="font-medium">Timeline</h2>
+        <section className="space-y-2 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <h2 className="font-display text-lg">Timeline</h2>
           <ol className="space-y-1 text-xs">
             {order.events.map((e) => (
               <li key={e.id} className="flex justify-between gap-2">
