@@ -39,7 +39,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'StoryTunes — turn your story into a song',
       },
     ],
     links: [

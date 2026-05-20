@@ -9,6 +9,7 @@ from app.models.business import (
     OrderEvent,
     ProcessedStripeEvent,
     Revision,
+    Sample,
     SongBrief,
     SongFile,
 )
@@ -25,4 +26,5 @@ __all__ = [
     "OrderEvent",
     "EmailLog",
     "ProcessedStripeEvent",
+    "Sample",
 ]

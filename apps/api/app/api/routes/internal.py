@@ -5,6 +5,8 @@ here with X-Internal-Key. The api owns the orders table, so the order write
 lives here. Idempotent on stripe_event_id (PDD §38).
 """
 
+import secrets
+from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import APIRouter, Depends
@@ -12,15 +14,47 @@ from pydantic import BaseModel
 
 from app.api.deps import Db, verify_internal_key
 from app.models.business import Order, ProcessedStripeEvent
+from app.schemas.order import InternalOrderCreate, OrderCreatedOut
+from app.services.pricing import expected_delivery, price_for
 from app.workers.tasks import start_production_pipeline
 
 router = APIRouter(prefix="/internal", tags=["internal"])
+
+
+def _order_number() -> str:
+    return f"ST-{datetime.now(UTC).strftime('%y%m%d')}-{secrets.token_hex(3).upper()}"
 
 
 class StripeEventIn(BaseModel):
     id: str
     type: str
     data: dict[str, Any]
+
+
+@router.post(
+    "/orders",
+    response_model=OrderCreatedOut,
+    status_code=201,
+    dependencies=[Depends(verify_internal_key)],
+)
+def create_order_internal(payload: InternalOrderCreate, db: Db) -> Order:
+    """Create an order on behalf of a user already verified by web.
+
+    Price is computed here (single source of truth), then web opens a Stripe
+    Checkout Session for `price_cents`.
+    """
+    fields = payload.model_dump(exclude={"addons"})
+    order = Order(
+        **fields,
+        order_number=_order_number(),
+        status="pending_payment",
+        price_cents=price_for(payload.package_type, payload.addons),
+        expected_delivery_date=expected_delivery(payload.package_type, payload.delivery_speed),
+    )
+    db.add(order)
+    db.commit()
+    db.refresh(order)
+    return order
 
 
 def _order_for_session(db: Db, obj: dict) -> Order | None:
@@ -30,11 +64,7 @@ def _order_for_session(db: Db, obj: dict) -> Order | None:
         return db.get(Order, order_id)
     session_id = obj.get("id")
     if session_id:
-        return (
-            db.query(Order)
-            .filter(Order.stripe_checkout_session_id == session_id)
-            .first()
-        )
+        return db.query(Order).filter(Order.stripe_checkout_session_id == session_id).first()
     return None
 
 

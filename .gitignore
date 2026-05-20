@@ -28,3 +28,4 @@ dist/
 
 # misc
 apps/web/package-lock.json
+apps/api/media/

@@ -18,4 +18,7 @@ celery.conf.update(
     },
     task_acks_late=True,
     worker_prefetch_multiplier=1,
+    # Inline execution for local flow testing (no broker/worker needed).
+    task_always_eager=settings.celery_eager,
+    task_eager_propagates=settings.celery_eager,
 )

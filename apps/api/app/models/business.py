@@ -67,12 +67,8 @@ class Order(Base):
     id: Mapped[str] = _uuid_pk()
     # FK to better-auth user (text id). No SQLAlchemy relationship across the
     # ownership boundary — load User explicitly when needed.
-    user_id: Mapped[str | None] = mapped_column(
-        ForeignKey("user.id"), nullable=True, index=True
-    )
-    artist_id: Mapped[str | None] = mapped_column(
-        ForeignKey("artists.id"), nullable=True
-    )
+    user_id: Mapped[str | None] = mapped_column(ForeignKey("user.id"), nullable=True, index=True)
+    artist_id: Mapped[str | None] = mapped_column(ForeignKey("artists.id"), nullable=True)
     order_number: Mapped[str] = mapped_column(Text, unique=True)
 
     recipient_name: Mapped[str] = mapped_column(Text)
@@ -123,9 +119,7 @@ class SongBrief(Base):
     __tablename__ = "song_briefs"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), index=True
-    )
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
     title_ideas: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     emotional_arc: Mapped[str | None] = mapped_column(Text, nullable=True)
     must_include: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
@@ -141,17 +135,13 @@ class Lyrics(Base):
     __tablename__ = "lyrics"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), index=True
-    )
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
     version: Mapped[int] = mapped_column(Integer, server_default="1")
     title: Mapped[str | None] = mapped_column(Text, nullable=True)
     lyrics_text: Mapped[str] = mapped_column(Text)
     status: Mapped[str] = mapped_column(Text, server_default="draft")
     generated_by: Mapped[str | None] = mapped_column(Text, nullable=True)
-    approved_by: Mapped[str | None] = mapped_column(
-        ForeignKey("user.id"), nullable=True
-    )
+    approved_by: Mapped[str | None] = mapped_column(ForeignKey("user.id"), nullable=True)
     approved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
@@ -161,9 +151,7 @@ class SongFile(Base):
     __tablename__ = "song_files"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), index=True
-    )
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
     file_type: Mapped[str] = mapped_column(Text)  # mp3 | wav | lyrics_pdf | cover
     file_url: Mapped[str] = mapped_column(Text)
     storage_key: Mapped[str] = mapped_column(Text)
@@ -179,12 +167,8 @@ class Revision(Base):
     __tablename__ = "revisions"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), index=True
-    )
-    requested_by: Mapped[str | None] = mapped_column(
-        ForeignKey("user.id"), nullable=True
-    )
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
+    requested_by: Mapped[str | None] = mapped_column(ForeignKey("user.id"), nullable=True)
     revision_type: Mapped[str | None] = mapped_column(Text, nullable=True)  # minor|major
     message: Mapped[str] = mapped_column(Text)
     status: Mapped[str] = mapped_column(Text, server_default="requested")
@@ -198,9 +182,7 @@ class OrderEvent(Base):
     __tablename__ = "order_events"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), index=True
-    )
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"), index=True)
     event_type: Mapped[str] = mapped_column(Text)
     message: Mapped[str | None] = mapped_column(Text, nullable=True)
     event_metadata: Mapped[dict | None] = mapped_column("metadata", JSONB, nullable=True)
@@ -212,9 +194,7 @@ class EmailLog(Base):
     __tablename__ = "email_logs"
 
     id: Mapped[str] = _uuid_pk()
-    order_id: Mapped[str | None] = mapped_column(
-        ForeignKey("orders.id"), nullable=True
-    )
+    order_id: Mapped[str | None] = mapped_column(ForeignKey("orders.id"), nullable=True)
     user_id: Mapped[str | None] = mapped_column(ForeignKey("user.id"), nullable=True)
     email_type: Mapped[str] = mapped_column(Text)
     recipient_email: Mapped[str] = mapped_column(Text)
@@ -233,3 +213,19 @@ class ProcessedStripeEvent(Base):
     stripe_event_id: Mapped[str] = mapped_column(Text, primary_key=True)
     event_type: Mapped[str] = mapped_column(Text)
     processed_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class Sample(Base):
+    """Public showcase songs (PDD §10.4)."""
+
+    __tablename__ = "samples"
+
+    id: Mapped[str] = _uuid_pk()
+    title: Mapped[str] = mapped_column(Text)
+    occasion: Mapped[str | None] = mapped_column(Text, nullable=True)
+    mood: Mapped[str | None] = mapped_column(Text, nullable=True)
+    artist_name: Mapped[str | None] = mapped_column(Text, nullable=True)
+    audio_url: Mapped[str] = mapped_column(Text)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, server_default="true")
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())

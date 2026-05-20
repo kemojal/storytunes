@@ -10,12 +10,71 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as SamplesRouteImport } from './routes/samples'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as OrderRouteImport } from './routes/order'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ArtistsRouteImport } from './routes/artists'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as SongTokenRouteImport } from './routes/song.$token'
+import { Route as OrderSuccessRouteImport } from './routes/order.success'
+import { Route as ApiCheckoutRouteImport } from './routes/api/checkout'
+import { Route as AdminSamplesRouteImport } from './routes/admin.samples'
+import { Route as AdminRevisionsRouteImport } from './routes/admin.revisions'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminArtistsRouteImport } from './routes/admin.artists'
+import { Route as DashboardOrdersOrderIdRouteImport } from './routes/dashboard.orders.$orderId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AdminOrdersOrderIdRouteImport } from './routes/admin.orders.$orderId'
 
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SamplesRoute = SamplesRouteImport.update({
+  id: '/samples',
+  path: '/samples',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderRoute = OrderRouteImport.update({
+  id: '/order',
+  path: '/order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArtistsRoute = ArtistsRouteImport.update({
+  id: '/artists',
+  path: '/artists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -23,39 +82,224 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const SongTokenRoute = SongTokenRouteImport.update({
+  id: '/song/$token',
+  path: '/song/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderSuccessRoute = OrderSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => OrderRoute,
+} as any)
+const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
+  id: '/api/checkout',
+  path: '/api/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSamplesRoute = AdminSamplesRouteImport.update({
+  id: '/samples',
+  path: '/samples',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRevisionsRoute = AdminRevisionsRouteImport.update({
+  id: '/revisions',
+  path: '/revisions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminArtistsRoute = AdminArtistsRouteImport.update({
+  id: '/artists',
+  path: '/artists',
+  getParentRoute: () => AdminRoute,
+} as any)
+const DashboardOrdersOrderIdRoute = DashboardOrdersOrderIdRouteImport.update({
+  id: '/orders/$orderId',
+  path: '/orders/$orderId',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOrdersOrderIdRoute = AdminOrdersOrderIdRouteImport.update({
+  id: '/$orderId',
+  path: '/$orderId',
+  getParentRoute: () => AdminOrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/artists': typeof ArtistsRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/order': typeof OrderRouteWithChildren
+  '/pricing': typeof PricingRoute
+  '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
+  '/admin/revisions': typeof AdminRevisionsRoute
+  '/admin/samples': typeof AdminSamplesRoute
+  '/api/checkout': typeof ApiCheckoutRoute
+  '/order/success': typeof OrderSuccessRoute
+  '/song/$token': typeof SongTokenRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/artists': typeof ArtistsRoute
+  '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/order': typeof OrderRouteWithChildren
+  '/pricing': typeof PricingRoute
+  '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
+  '/admin/revisions': typeof AdminRevisionsRoute
+  '/admin/samples': typeof AdminSamplesRoute
+  '/api/checkout': typeof ApiCheckoutRoute
+  '/order/success': typeof OrderSuccessRoute
+  '/song/$token': typeof SongTokenRoute
+  '/admin': typeof AdminIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/artists': typeof ArtistsRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/order': typeof OrderRouteWithChildren
+  '/pricing': typeof PricingRoute
+  '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
+  '/admin/revisions': typeof AdminRevisionsRoute
+  '/admin/samples': typeof AdminSamplesRoute
+  '/api/checkout': typeof ApiCheckoutRoute
+  '/order/success': typeof OrderSuccessRoute
+  '/song/$token': typeof SongTokenRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/artists'
+    | '/dashboard'
+    | '/faq'
+    | '/how-it-works'
+    | '/order'
+    | '/pricing'
+    | '/samples'
+    | '/sign-in'
+    | '/admin/artists'
+    | '/admin/orders'
+    | '/admin/revisions'
+    | '/admin/samples'
+    | '/api/checkout'
+    | '/order/success'
+    | '/song/$token'
+    | '/admin/'
+    | '/dashboard/'
+    | '/admin/orders/$orderId'
+    | '/api/auth/$'
+    | '/dashboard/orders/$orderId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/api/auth/$'
-  id: '__root__' | '/' | '/sign-in' | '/api/auth/$'
+  to:
+    | '/'
+    | '/artists'
+    | '/faq'
+    | '/how-it-works'
+    | '/order'
+    | '/pricing'
+    | '/samples'
+    | '/sign-in'
+    | '/admin/artists'
+    | '/admin/orders'
+    | '/admin/revisions'
+    | '/admin/samples'
+    | '/api/checkout'
+    | '/order/success'
+    | '/song/$token'
+    | '/admin'
+    | '/dashboard'
+    | '/admin/orders/$orderId'
+    | '/api/auth/$'
+    | '/dashboard/orders/$orderId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/artists'
+    | '/dashboard'
+    | '/faq'
+    | '/how-it-works'
+    | '/order'
+    | '/pricing'
+    | '/samples'
+    | '/sign-in'
+    | '/admin/artists'
+    | '/admin/orders'
+    | '/admin/revisions'
+    | '/admin/samples'
+    | '/api/checkout'
+    | '/order/success'
+    | '/song/$token'
+    | '/admin/'
+    | '/dashboard/'
+    | '/admin/orders/$orderId'
+    | '/api/auth/$'
+    | '/dashboard/orders/$orderId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  ArtistsRoute: typeof ArtistsRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  FaqRoute: typeof FaqRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  OrderRoute: typeof OrderRouteWithChildren
+  PricingRoute: typeof PricingRoute
+  SamplesRoute: typeof SamplesRoute
   SignInRoute: typeof SignInRoute
+  ApiCheckoutRoute: typeof ApiCheckoutRoute
+  SongTokenRoute: typeof SongTokenRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -68,12 +312,138 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/samples': {
+      id: '/samples'
+      path: '/samples'
+      fullPath: '/samples'
+      preLoaderRoute: typeof SamplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order': {
+      id: '/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artists': {
+      id: '/artists'
+      path: '/artists'
+      fullPath: '/artists'
+      preLoaderRoute: typeof ArtistsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/song/$token': {
+      id: '/song/$token'
+      path: '/song/$token'
+      fullPath: '/song/$token'
+      preLoaderRoute: typeof SongTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order/success': {
+      id: '/order/success'
+      path: '/success'
+      fullPath: '/order/success'
+      preLoaderRoute: typeof OrderSuccessRouteImport
+      parentRoute: typeof OrderRoute
+    }
+    '/api/checkout': {
+      id: '/api/checkout'
+      path: '/api/checkout'
+      fullPath: '/api/checkout'
+      preLoaderRoute: typeof ApiCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/samples': {
+      id: '/admin/samples'
+      path: '/samples'
+      fullPath: '/admin/samples'
+      preLoaderRoute: typeof AdminSamplesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/revisions': {
+      id: '/admin/revisions'
+      path: '/revisions'
+      fullPath: '/admin/revisions'
+      preLoaderRoute: typeof AdminRevisionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/artists': {
+      id: '/admin/artists'
+      path: '/artists'
+      fullPath: '/admin/artists'
+      preLoaderRoute: typeof AdminArtistsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/dashboard/orders/$orderId': {
+      id: '/dashboard/orders/$orderId'
+      path: '/orders/$orderId'
+      fullPath: '/dashboard/orders/$orderId'
+      preLoaderRoute: typeof DashboardOrdersOrderIdRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -82,12 +452,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/orders/$orderId': {
+      id: '/admin/orders/$orderId'
+      path: '/$orderId'
+      fullPath: '/admin/orders/$orderId'
+      preLoaderRoute: typeof AdminOrdersOrderIdRouteImport
+      parentRoute: typeof AdminOrdersRoute
+    }
   }
 }
 
+interface AdminOrdersRouteChildren {
+  AdminOrdersOrderIdRoute: typeof AdminOrdersOrderIdRoute
+}
+
+const AdminOrdersRouteChildren: AdminOrdersRouteChildren = {
+  AdminOrdersOrderIdRoute: AdminOrdersOrderIdRoute,
+}
+
+const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
+  AdminOrdersRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminArtistsRoute: typeof AdminArtistsRoute
+  AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
+  AdminRevisionsRoute: typeof AdminRevisionsRoute
+  AdminSamplesRoute: typeof AdminSamplesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminArtistsRoute: AdminArtistsRoute,
+  AdminOrdersRoute: AdminOrdersRouteWithChildren,
+  AdminRevisionsRoute: AdminRevisionsRoute,
+  AdminSamplesRoute: AdminSamplesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardOrdersOrderIdRoute: typeof DashboardOrdersOrderIdRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardOrdersOrderIdRoute: DashboardOrdersOrderIdRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
+interface OrderRouteChildren {
+  OrderSuccessRoute: typeof OrderSuccessRoute
+}
+
+const OrderRouteChildren: OrderRouteChildren = {
+  OrderSuccessRoute: OrderSuccessRoute,
+}
+
+const OrderRouteWithChildren = OrderRoute._addFileChildren(OrderRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  ArtistsRoute: ArtistsRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  FaqRoute: FaqRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  OrderRoute: OrderRouteWithChildren,
+  PricingRoute: PricingRoute,
+  SamplesRoute: SamplesRoute,
   SignInRoute: SignInRoute,
+  ApiCheckoutRoute: ApiCheckoutRoute,
+  SongTokenRoute: SongTokenRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

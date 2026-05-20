@@ -10,6 +10,7 @@
     "check": "uv run ruff format --check .",
     "test": "uv run pytest",
     "db:migrate": "uv run alembic upgrade head",
-    "db:revision": "uv run alembic revision --autogenerate -m"
+    "db:revision": "uv run alembic revision --autogenerate -m",
+    "seed": "uv run python -m scripts.seed"
   }
 }

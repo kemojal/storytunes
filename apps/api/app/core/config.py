@@ -18,6 +18,8 @@ class Settings(BaseSettings):
 
     resend_api_key: str = ""
     email_from: str = "StoryTunes <onboarding@resend.dev>"
+    # Fallback artist persona for emails when no artist is assigned yet.
+    email_artist_name: str = "Maya"
 
     r2_account_id: str = ""
     r2_access_key_id: str = ""
@@ -26,6 +28,29 @@ class Settings(BaseSettings):
     r2_public_base_url: str = ""
 
     web_origin: str = "http://localhost:3000"
+    # Public base URL of this api (for locally-served media links).
+    api_base_url: str = "http://localhost:8000"
+
+    # ---- AI: lyrics (Gemini Flash) ----
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
+
+    # ---- AI: music generation (pluggable) ----
+    # one of: stub | lyria | replicate | suno | elevenlabs
+    music_provider: str = "lyria"
+    lyria_model: str = "models/lyria-3-pro-preview"  # Google Lyria (uses GEMINI_API_KEY)
+    replicate_api_token: str = ""
+    replicate_music_model: str = "meta/musicgen"
+    suno_api_key: str = ""
+    suno_api_base: str = "https://api.sunoapi.org"
+    elevenlabs_api_key: str = ""
+
+    # Run Celery tasks inline (no broker) — used for local flow testing.
+    celery_eager: bool = False
+
+    @property
+    def has_gemini(self) -> bool:
+        return bool(self.gemini_api_key)
 
     @property
     def sqlalchemy_url(self) -> str:

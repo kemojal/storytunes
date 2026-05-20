@@ -10,9 +10,7 @@ router = APIRouter(prefix="/artists", tags=["artists"])
 
 @router.get("", response_model=list[ArtistOut])
 def list_artists(db: Db) -> list[Artist]:
-    return list(
-        db.execute(select(Artist).where(Artist.is_active.is_(True))).scalars()
-    )
+    return list(db.execute(select(Artist).where(Artist.is_active.is_(True))).scalars())
 
 
 @router.get("/{slug}", response_model=ArtistOut)

@@ -34,6 +34,25 @@ class OrderDraftCreate(BaseModel):
     things_to_avoid: str | None = None
 
 
+class InternalOrderCreate(OrderDraftCreate):
+    """Order created on a user's behalf by web (after better-auth verification).
+
+    `addons` is used only to compute price; persisting add-ons as line items is
+    a follow-up (no column yet). `accept_terms`/`artist_mode` are web-only.
+    """
+
+    model_config = ConfigDict(extra="ignore")
+    user_id: str
+    addons: list[str] = []
+
+
+class OrderCreatedOut(BaseModel):
+    id: str
+    order_number: str
+    price_cents: int
+    currency: str
+
+
 class OrderUpdate(BaseModel):
     model_config = ConfigDict(extra="ignore")
     # Partial update — every wizard field optional.
