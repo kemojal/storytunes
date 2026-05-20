@@ -1,0 +1,25 @@
+{
+  "name": "storytunes",
+  "private": true,
+  "packageManager": "pnpm@10.23.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "check": "turbo run check",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "turbo run db:migrate",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "api:dev": "pnpm --filter @storytunes/api dev",
+    "api:worker": "pnpm --filter @storytunes/api worker",
+    "web:dev": "pnpm --filter @storytunes/web dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.5"
+  }
+}

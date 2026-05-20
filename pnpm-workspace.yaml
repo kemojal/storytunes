@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Native deps that are allowed to run build/postinstall scripts under pnpm.
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
+  - "@tailwindcss/oxide"

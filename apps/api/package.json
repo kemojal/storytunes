@@ -1,0 +1,15 @@
+{
+  "name": "@storytunes/api",
+  "private": true,
+  "description": "Thin wrappers so Turborepo can orchestrate the Python api alongside web.",
+  "scripts": {
+    "dev": "uv run uvicorn app.main:app --reload --port 8000",
+    "worker": "uv run celery -A app.workers.celery_app.celery worker --loglevel=info",
+    "build": "uv sync",
+    "lint": "uv run ruff check .",
+    "check": "uv run ruff format --check .",
+    "test": "uv run pytest",
+    "db:migrate": "uv run alembic upgrade head",
+    "db:revision": "uv run alembic revision --autogenerate -m"
+  }
+}

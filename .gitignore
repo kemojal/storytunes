@@ -1,0 +1,30 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# builds
+.output/
+dist/
+.vinxi/
+.nitro/
+.turbo/
+
+# env
+.env
+.env.*
+!.env.example
+
+# editor / os
+.DS_Store
+*.log
+
+# misc
+apps/web/package-lock.json
