@@ -14,9 +14,7 @@ export function SiteNav() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="group flex items-center gap-2">
-          <span className="flex size-7 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">
-            ♪
-          </span>
+          <img src="/logo-mark.svg" alt="" className="size-7 rounded-lg" />
           <span className="font-display text-lg font-semibold tracking-tight">StoryTunes</span>
         </Link>
 
@@ -45,20 +43,87 @@ export function SiteNav() {
   )
 }
 
+const FOOTER_EXPLORE = [
+  { to: '/how-it-works', label: 'How it works' },
+  { to: '/artists', label: 'Artists' },
+  { to: '/samples', label: 'Samples' },
+  { to: '/pricing', label: 'Pricing' },
+] as const
+
+const FOOTER_SUPPORT = [
+  { to: '/faq', label: 'FAQ' },
+  { to: '/dashboard', label: 'My orders' },
+  { to: '/order', label: 'Start a song' },
+] as const
+
+function FooterCol({
+  title,
+  links,
+}: {
+  title: string
+  links: ReadonlyArray<{ to: string; label: string }>
+}) {
+  return (
+    <div>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        {title}
+      </h3>
+      <ul className="mt-4 space-y-2.5 text-sm">
+        {links.map((l) => (
+          <li key={l.to}>
+            <Link to={l.to} className="text-muted-foreground transition-colors hover:text-foreground">
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border/60">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-10 text-center sm:px-6">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
-            ♪
-          </span>
-          <span className="font-display">StoryTunes</span>
+    <footer className="mt-24 border-t border-border/60 bg-card/40">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
+          <div className="sm:col-span-2 md:col-span-1">
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/logo-mark.svg" alt="" className="size-7 rounded-lg" />
+              <span className="font-display text-lg font-semibold">StoryTunes</span>
+            </Link>
+            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+              Turn your story into a song they’ll never forget.
+            </p>
+            <Button asChild size="sm" className="mt-5 rounded-full px-5">
+              <Link to="/order">Create their song</Link>
+            </Button>
+          </div>
+
+          <FooterCol title="Explore" links={FOOTER_EXPLORE} />
+          <FooterCol title="Support" links={FOOTER_SUPPORT} />
+
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              Legal
+            </h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {['Terms of Service', 'Privacy Policy', 'Refund Policy'].map((l) => (
+                <li key={l}>
+                  <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">Turn memories into music.</p>
-        <p className="text-xs text-muted-foreground/70">
-          © {new Date().getFullYear()} StoryTunes · A custom song for someone you love
-        </p>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground sm:flex-row">
+          <span>
+            © {new Date().getFullYear()} StoryTunes — a custom song for someone you love.
+          </span>
+          <span>Made with care ♪</span>
+        </div>
       </div>
     </footer>
   )

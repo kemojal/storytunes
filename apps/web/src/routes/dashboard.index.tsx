@@ -23,9 +23,7 @@ function MyOrders() {
 
       {orders.length === 0 ? (
         <div className="rounded-3xl border border-border/60 bg-card/70 p-12 text-center shadow-soft">
-          <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-accent text-xl text-accent-foreground">
-            ♪
-          </div>
+          <img src="/states/empty-songs.svg" alt="" className="mx-auto h-28 w-auto" />
           <p className="mt-4 font-display text-xl">No songs yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Your first custom song is a few minutes away.

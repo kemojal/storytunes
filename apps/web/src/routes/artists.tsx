@@ -1,11 +1,22 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { fetchArtists } from '#/lib/server/fns'
-import { titleCase } from '#/lib/order/constants'
 import { MarketingShell } from '#/components/site/SiteNav'
+import { ArtistCard } from '#/components/artist-card'
 import { Button } from '#/components/ui/button'
 
 export const Route = createFileRoute('/artists')({
-  loader: () => fetchArtists().catch(() => []),
+  loader: () => fetchArtists(),
+  errorComponent: () => (
+    <MarketingShell>
+      <div className="mx-auto max-w-md px-6 py-24 text-center">
+        <p className="font-display text-2xl">We couldn’t load the artists</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Please refresh in a moment. (Developing? Make sure the API is running —
+          <code> pnpm dev</code> starts it on <code>:8008</code>.)
+        </p>
+      </div>
+    </MarketingShell>
+  ),
   component: Artists,
 })
 
@@ -13,40 +24,27 @@ function Artists() {
   const artists = Route.useLoaderData()
   return (
     <MarketingShell>
-      <div className="mx-auto max-w-5xl px-4 py-16">
-        <h1 className="text-3xl font-semibold">Meet the artists</h1>
-        <p className="mt-2 text-muted-foreground">
-          Each voice brings a different feeling. Pick one, or let us match you.
-        </p>
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="max-w-lg">
+          <h1 className="text-4xl">The voice behind your song</h1>
+          <p className="mt-3 text-muted-foreground">
+            Every artist carries a different feeling. Pick the one that sounds like
+            your story — or let us match you.
+          </p>
+        </div>
 
         {artists.length === 0 ? (
-          <p className="mt-10 text-muted-foreground">Artists coming soon.</p>
+          <p className="mt-12 text-muted-foreground">Artists coming soon.</p>
         ) : (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
             {artists.map((a) => (
-              <div key={a.id} className="rounded-xl border p-6">
-                <div className="size-16 rounded-full bg-muted" aria-hidden />
-                <h2 className="mt-4 text-lg font-semibold">{a.name}</h2>
-                {a.voice_description && (
-                  <p className="mt-1 text-sm text-muted-foreground">{a.voice_description}</p>
-                )}
-                {a.best_for && (
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    Best for: {a.best_for.map(titleCase).join(', ')}
-                  </p>
-                )}
-                {a.genres && (
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Genres: {a.genres.map(titleCase).join(', ')}
-                  </p>
-                )}
-              </div>
+              <ArtistCard key={a.id} artist={a} />
             ))}
           </div>
         )}
 
-        <div className="mt-12">
-          <Button asChild size="lg">
+        <div className="mt-14 text-center">
+          <Button asChild size="lg" className="rounded-full px-8">
             <Link to="/order">Start your song</Link>
           </Button>
         </div>

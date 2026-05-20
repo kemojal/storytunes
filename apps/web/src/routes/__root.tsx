@@ -31,22 +31,33 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   head: () => ({
     meta: [
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: 'StoryTunes — turn your story into a song' },
       {
-        charSet: 'utf-8',
+        name: 'description',
+        content:
+          'Custom songs written for one person. Share your story and we’ll craft an original, beautifully produced song — the gift they’ll never forget.',
       },
+      { name: 'theme-color', content: '#43332B' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'Turn your story into a song they’ll never forget' },
       {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        property: 'og:description',
+        content: 'Original, beautifully produced custom songs — made for someone you love.',
       },
-      {
-        title: 'StoryTunes — turn your story into a song',
-      },
+      { property: 'og:image', content: '/og/og-image.png' },
+      { property: 'og:site_name', content: 'StoryTunes' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Turn your story into a song they’ll never forget' },
+      { name: 'twitter:image', content: '/og/og-image-twitter.png' },
     ],
     links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      { rel: 'manifest', href: '/manifest.json' },
     ],
   }),
   shellComponent: RootDocument,

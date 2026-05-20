@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160" role="img" aria-label="StoryTunes wordmark">
+  <defs>
+    <linearGradient id="noteGold" x1="42" y1="32" x2="95" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0C86A"/>
+      <stop offset="1" stop-color="#D9A441"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="160" fill="none"/>
+  <g transform="translate(28 32) scale(.82)">
+    <rect x="0" y="0" width="96" height="96" rx="24" fill="#2B1A14"/>
+    <path d="M63.5 22.5c-8.9 1.9-17.2 4.3-24.3 7.2v31.2c-2.4-1.1-5.7-1.1-8.9.2-5.3 2.1-8.2 6.7-6.5 10.3 1.7 3.6 7.3 4.7 12.6 2.6 4.5-1.8 7.3-5.3 7-8.5V43.4c6.4-2.5 11.9-4.2 17-5.3v17.1c-2.4-1-5.7-.9-8.9.3-5.3 2.1-8.2 6.7-6.5 10.3 1.7 3.6 7.3 4.7 12.6 2.6 4.7-1.9 7.5-5.6 6.9-8.9h.1V22.5z" fill="url(#noteGold)"/>
+    <circle cx="69.5" cy="27.5" r="4.5" fill="#D9827C"/>
+  </g>
+  <text x="128" y="96" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#2B1A14">Story</text>
+  <text x="307" y="96" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#D9A441">Tunes</text>
+  <circle cx="582" cy="56" r="5" fill="#D9827C"/>
+</svg>

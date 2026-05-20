@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { fetchSharePage } from '#/lib/server/fns'
 import { titleCase } from '#/lib/order/constants'
+import { AudioPlayer } from '#/components/audio-player'
 import { Button } from '#/components/ui/button'
 
 export const Route = createFileRoute('/song/$token')({
@@ -22,6 +23,11 @@ function SharePageView() {
       <div className="rise-in overflow-hidden rounded-[1.75rem] border border-border/60 bg-card text-center shadow-soft-lg">
         {/* gift header band */}
         <div className="bg-primary px-8 pt-10 pb-12 text-primary-foreground">
+          <img
+            src="/samples/share-cover-default.png"
+            alt=""
+            className="mx-auto mb-6 size-28 rounded-2xl object-cover shadow-soft-lg"
+          />
           <p className="text-xs font-medium uppercase tracking-[0.2em] opacity-70">
             A song for you · {titleCase(song.occasion)}
           </p>
@@ -32,11 +38,7 @@ function SharePageView() {
         </div>
 
         <div className="px-6 pb-8 sm:px-8">
-          {audio && (
-            <audio controls src={audio.url} className="-mt-6 w-full">
-              <track kind="captions" />
-            </audio>
-          )}
+          {audio && <AudioPlayer src={audio.url} className="-mt-6" />}
 
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             {song.files.map((f) => (

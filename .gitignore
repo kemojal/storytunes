@@ -29,3 +29,6 @@ dist/
 # misc
 apps/web/package-lock.json
 apps/api/media/
+
+# raw image sources (optimized copies live in apps/web/public/)
+/assets/

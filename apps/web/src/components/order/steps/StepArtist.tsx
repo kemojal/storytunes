@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
+import { useSearch } from '@tanstack/react-router'
 import { setField, wizardStore } from '#/lib/order/store'
 import { apiFetch } from '#/lib/api'
 import { Field, OptionChip, StepHeader } from '../primitives'
@@ -7,6 +9,7 @@ import { cn } from '#/lib/utils'
 
 type Artist = {
   id: string
+  slug: string
   name: string
   voice_description: string | null
   best_for: string[] | null
@@ -16,12 +19,25 @@ type Artist = {
 
 export function StepArtist() {
   const data = useStore(wizardStore, (s) => s.data)
+  const { artist: artistParam } = useSearch({ from: '/order' })
+  const preselected = useRef(false)
 
   const { data: artists, isLoading, isError } = useQuery({
     queryKey: ['artists'],
     queryFn: () => apiFetch<Artist[]>('/api/artists'),
     retry: false,
   })
+
+  // Preselect from a deep link (/order?artist=<slug>) once artists load.
+  useEffect(() => {
+    if (preselected.current || !artistParam || !artists) return
+    const match = artists.find((a) => a.slug === artistParam)
+    if (match && !data.artist_id) {
+      setField('artist_mode', 'pick')
+      setField('artist_id', match.id)
+      preselected.current = true
+    }
+  }, [artistParam, artists, data.artist_id])
 
   return (
     <div className="space-y-6">
@@ -68,7 +84,14 @@ export function StepArtist() {
                     selected ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft' : 'border-input hover:border-primary/50',
                   )}
                 >
-                  <div className="size-12 shrink-0 rounded-full bg-muted" aria-hidden />
+                  <img
+                    src={a.image_url ?? `/artists/${a.slug}.png`}
+                    alt={a.name}
+                    className="size-12 shrink-0 rounded-full object-cover ring-1 ring-border"
+                    onError={(e) => {
+                      ;(e.currentTarget as HTMLImageElement).src = '/logo-mark.svg'
+                    }}
+                  />
                   <div>
                     <div className="font-medium">{a.name}</div>
                     {a.voice_description && (
