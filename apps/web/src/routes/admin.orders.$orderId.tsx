@@ -42,7 +42,11 @@ function AdminOrderDetail() {
   }
 
   async function uploadFinal(file: File) {
-    const type = file.name.endsWith('.wav') ? 'wav' : file.name.endsWith('.pdf') ? 'lyrics_pdf' : 'mp3'
+    const type = file.name.endsWith('.wav')
+      ? 'wav'
+      : file.name.endsWith('.pdf')
+        ? 'lyrics_pdf'
+        : 'mp3'
     setBusy('upload')
     try {
       const { upload_url } = await adminPresignUpload({
@@ -70,7 +74,10 @@ function AdminOrderDetail() {
       {/* main */}
       <div className="space-y-6 lg:col-span-2">
         <div>
-          <Link to="/admin/orders" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+          <Link
+            to="/admin/orders"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
             ← All orders
           </Link>
           <div className="mt-2 flex items-center justify-between">
@@ -79,8 +86,8 @@ function AdminOrderDetail() {
           </div>
           <p className="text-sm text-muted-foreground">
             For {order.recipient_name} ({titleCase(order.relationship)}) ·{' '}
-            {titleCase(order.occasion)} · {order.package_type} · {formatUsd(order.price_cents)} ·{' '}
-            {order.payment_status}
+            {titleCase(order.occasion)} · {order.package_type} ·{' '}
+            {formatUsd(order.price_cents)} · {order.payment_status}
           </p>
         </div>
 
@@ -91,21 +98,25 @@ function AdminOrderDetail() {
             {order.story || '—'}
           </p>
           <div className="text-xs text-muted-foreground">
-            Genre: {order.genre ?? '—'} · Mood: {(order.mood ?? []).join(', ') || '—'} · Tempo:{' '}
-            {order.tempo ?? '—'}
+            Genre: {order.genre ?? '—'} · Mood:{' '}
+            {(order.mood ?? []).join(', ') || '—'} · Tempo: {order.tempo ?? '—'}
           </div>
         </section>
 
         {/* lyrics editor */}
         <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-lg">Lyrics {latest ? `(v${latest.version}, ${latest.status})` : ''}</h2>
+            <h2 className="font-display text-lg">
+              Lyrics {latest ? `(v${latest.version}, ${latest.status})` : ''}
+            </h2>
             <div className="flex gap-2">
               <Button
                 size="sm"
                 variant="outline"
                 disabled={busy !== null}
-                onClick={() => run('brief', () => adminGenerateBrief({ data: order.id }))}
+                onClick={() =>
+                  run('brief', () => adminGenerateBrief({ data: order.id }))
+                }
               >
                 {busy === 'brief' ? '…' : 'Generate brief'}
               </Button>
@@ -113,7 +124,11 @@ function AdminOrderDetail() {
                 size="sm"
                 variant="outline"
                 disabled={busy !== null}
-                onClick={() => run('genlyrics', () => adminGenerateLyrics({ data: order.id }))}
+                onClick={() =>
+                  run('genlyrics', () =>
+                    adminGenerateLyrics({ data: order.id }),
+                  )
+                }
               >
                 {busy === 'genlyrics' ? '…' : 'Generate lyrics'}
               </Button>
@@ -140,7 +155,11 @@ function AdminOrderDetail() {
                   onClick={() =>
                     run('savelyrics', () =>
                       adminEditLyrics({
-                        data: { lyricsId: latest.id, lyrics_text: lyricsText, title: lyricsTitle },
+                        data: {
+                          lyricsId: latest.id,
+                          lyrics_text: lyricsText,
+                          title: lyricsTitle,
+                        },
                       }),
                     )
                   }
@@ -151,14 +170,18 @@ function AdminOrderDetail() {
                   size="sm"
                   variant="secondary"
                   disabled={busy !== null}
-                  onClick={() => run('approve', () => adminApproveLyrics({ data: order.id }))}
+                  onClick={() =>
+                    run('approve', () => adminApproveLyrics({ data: order.id }))
+                  }
                 >
                   Approve lyrics
                 </Button>
               </div>
             </>
           ) : (
-            <p className="text-sm text-muted-foreground">No lyrics yet. Generate to start.</p>
+            <p className="text-sm text-muted-foreground">
+              No lyrics yet. Generate to start.
+            </p>
           )}
         </section>
 
@@ -172,7 +195,8 @@ function AdminOrderDetail() {
             {order.files.map((f) => (
               <li key={f.id} className="flex justify-between">
                 <span>
-                  {f.file_name} <span className="text-muted-foreground">({f.file_type})</span>
+                  {f.file_name}{' '}
+                  <span className="text-muted-foreground">({f.file_type})</span>
                 </span>
                 {f.is_final && <span className="text-green-700">final</span>}
               </li>
@@ -193,7 +217,11 @@ function AdminOrderDetail() {
           <div>
             <Button
               disabled={busy !== null}
-              onClick={() => run('deliver', () => adminDeliver({ data: { orderId: order.id } }))}
+              onClick={() =>
+                run('deliver', () =>
+                  adminDeliver({ data: { orderId: order.id } }),
+                )
+              }
             >
               {busy === 'deliver' ? 'Delivering…' : 'Deliver to customer'}
             </Button>
@@ -211,7 +239,9 @@ function AdminOrderDetail() {
             disabled={busy !== null}
             onChange={(e) =>
               run('status', () =>
-                adminSetStatus({ data: { orderId: order.id, status: e.target.value } }),
+                adminSetStatus({
+                  data: { orderId: order.id, status: e.target.value },
+                }),
               )
             }
           >
@@ -225,13 +255,19 @@ function AdminOrderDetail() {
 
         <section className="space-y-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
           <h2 className="font-display text-lg">Internal notes</h2>
-          <Textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
+          <Textarea
+            rows={3}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
           <Button
             size="sm"
             disabled={busy !== null || !note.trim()}
             onClick={() =>
               run('note', async () => {
-                await adminAddNote({ data: { orderId: order.id, message: note } })
+                await adminAddNote({
+                  data: { orderId: order.id, message: note },
+                })
                 setNote('')
               })
             }

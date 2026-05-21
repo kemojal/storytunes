@@ -1,6 +1,10 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
-import { adminCreateSample, adminDeleteSample, fetchAdminSamples } from '#/lib/server/admin'
+import {
+  adminCreateSample,
+  adminDeleteSample,
+  fetchAdminSamples,
+} from '#/lib/server/admin'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 
@@ -50,24 +54,41 @@ function AdminSamples() {
         </div>
         <div className="flex-[2]">
           <label className="text-sm font-medium">Audio URL</label>
-          <Input value={audioUrl} onChange={(e) => setAudioUrl(e.target.value)} placeholder="https://…" />
+          <Input
+            value={audioUrl}
+            onChange={(e) => setAudioUrl(e.target.value)}
+            placeholder="https://…"
+          />
         </div>
-        <Button onClick={create} disabled={busy || !title.trim() || !audioUrl.trim()}>
+        <Button
+          onClick={create}
+          disabled={busy || !title.trim() || !audioUrl.trim()}
+        >
           Add sample
         </Button>
       </div>
 
       <div className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-soft">
         {samples.length === 0 && (
-          <div className="p-6 text-center text-muted-foreground">No samples yet.</div>
+          <div className="p-6 text-center text-muted-foreground">
+            No samples yet.
+          </div>
         )}
         {samples.map((s) => (
-          <div key={s.id} className="flex items-center justify-between px-5 py-4">
+          <div
+            key={s.id}
+            className="flex items-center justify-between px-5 py-4"
+          >
             <div>
               <div className="font-medium">{s.title}</div>
               <div className="text-xs text-muted-foreground">{s.audio_url}</div>
             </div>
-            <Button size="xs" variant="outline" disabled={busy} onClick={() => remove(s.id)}>
+            <Button
+              size="xs"
+              variant="outline"
+              disabled={busy}
+              onClick={() => remove(s.id)}
+            >
               Delete
             </Button>
           </div>

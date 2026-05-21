@@ -41,15 +41,22 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       { name: 'theme-color', content: '#43332B' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:title', content: 'Turn your story into a song they’ll never forget' },
+      {
+        property: 'og:title',
+        content: 'Turn your story into a song they’ll never forget',
+      },
       {
         property: 'og:description',
-        content: 'Original, beautifully produced custom songs — made for someone you love.',
+        content:
+          'Original, beautifully produced custom songs — made for someone you love.',
       },
       { property: 'og:image', content: '/og/og-image.png' },
       { property: 'og:site_name', content: 'StoryTunes' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Turn your story into a song they’ll never forget' },
+      {
+        name: 'twitter:title',
+        content: 'Turn your story into a song they’ll never forget',
+      },
       { name: 'twitter:image', content: '/og/og-image-twitter.png' },
     ],
     links: [

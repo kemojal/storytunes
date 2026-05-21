@@ -1,5 +1,6 @@
 import { Store } from '@tanstack/store'
-import { STEPS, type WizardData } from './schema'
+import { STEPS  } from './schema'
+import type {WizardData} from './schema';
 
 export type WizardState = {
   stepIndex: number
@@ -22,7 +23,10 @@ export const wizardStore = new Store<WizardState>({
   errors: {},
 })
 
-export function setField<K extends keyof WizardData>(key: K, value: WizardData[K]) {
+export function setField<K extends keyof WizardData>(
+  key: K,
+  value: WizardData[K],
+) {
   wizardStore.setState((s) => ({
     ...s,
     data: { ...s.data, [key]: value },

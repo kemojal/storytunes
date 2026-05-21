@@ -8,7 +8,13 @@ export const Route = createFileRoute('/admin/revisions')({
   component: AdminRevisions,
 })
 
-const NEXT_STATUS = ['requested', 'approved', 'in_progress', 'completed', 'declined']
+const NEXT_STATUS = [
+  'requested',
+  'approved',
+  'in_progress',
+  'completed',
+  'declined',
+]
 
 function AdminRevisions() {
   const revisions = Route.useLoaderData()
@@ -36,7 +42,10 @@ function AdminRevisions() {
       ) : (
         <div className="space-y-3">
           {revisions.map((r) => (
-            <div key={r.id} className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+            <div
+              key={r.id}
+              className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft"
+            >
               <div className="flex items-center justify-between">
                 <Link
                   to="/admin/orders/$orderId"

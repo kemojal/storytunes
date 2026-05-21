@@ -1,6 +1,10 @@
 import { useStore } from '@tanstack/react-store'
 import { setField, wizardStore } from '#/lib/order/store'
-import { MENTION_PREFERENCES, RELATIONSHIPS, titleCase } from '#/lib/order/constants'
+import {
+  MENTION_PREFERENCES,
+  RELATIONSHIPS,
+  titleCase,
+} from '#/lib/order/constants'
 import { ChipGroup, Field, OptionChip, StepHeader } from '../primitives'
 import { Input } from '#/components/ui/input'
 
@@ -28,7 +32,10 @@ export function StepRecipient() {
         />
       </Field>
 
-      <Field label="Should we mention their name?" error={errors.mention_name_preference}>
+      <Field
+        label="Should we mention their name?"
+        error={errors.mention_name_preference}
+      >
         <ChipGroup>
           {MENTION_PREFERENCES.map((m) => (
             <OptionChip

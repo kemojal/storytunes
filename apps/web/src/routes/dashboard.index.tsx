@@ -28,7 +28,11 @@ function MyOrders() {
 
       {orders.length === 0 ? (
         <div className="rounded-3xl border border-border/60 bg-card/70 p-12 text-center shadow-soft">
-          <img src="/states/empty-songs.svg" alt="" className="mx-auto h-28 w-auto" />
+          <img
+            src="/states/empty-songs.svg"
+            alt=""
+            className="mx-auto h-28 w-auto"
+          />
           <p className="mt-4 font-display text-xl">No songs yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Your first custom song is a few minutes away.
@@ -53,7 +57,9 @@ function MyOrders() {
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">{formatUsd(o.price_cents)}</span>
+                <span className="text-sm text-muted-foreground">
+                  {formatUsd(o.price_cents)}
+                </span>
                 <StatusBadge status={o.status} />
               </div>
             </Link>

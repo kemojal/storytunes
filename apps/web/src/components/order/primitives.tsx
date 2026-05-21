@@ -1,10 +1,18 @@
 import type { ReactNode } from 'react'
 import { cn } from '#/lib/utils'
 
-export function StepHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+export function StepHeader({
+  title,
+  subtitle,
+}: {
+  title: string
+  subtitle?: string
+}) {
   return (
     <div className="space-y-1.5">
-      <h2 className="font-display text-2xl tracking-tight sm:text-[1.7rem]">{title}</h2>
+      <h2 className="font-display text-2xl tracking-tight sm:text-[1.7rem]">
+        {title}
+      </h2>
       {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
     </div>
   )
@@ -25,7 +33,9 @@ export function Field({
     <div className="space-y-2.5">
       {label && <label className="text-sm font-medium">{label}</label>}
       {children}
-      {hint && !error && <p className="text-xs text-muted-foreground">{hint}</p>}
+      {hint && !error && (
+        <p className="text-xs text-muted-foreground">{hint}</p>
+      )}
       {error && <p className="text-xs font-medium text-destructive">{error}</p>}
     </div>
   )

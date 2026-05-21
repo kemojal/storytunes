@@ -27,7 +27,9 @@ function OrderDetailPage() {
 
   const latestLyrics = order.lyrics[0]
   const finals = order.files.filter((f) => f.is_final)
-  const audioFile = finals.find((f) => f.file_type === 'mp3' || f.file_type === 'wav')
+  const audioFile = finals.find(
+    (f) => f.file_type === 'mp3' || f.file_type === 'wav',
+  )
   const isDelivered = ['delivered', 'completed'].includes(order.status)
   const needsPayment = ['pending_payment', 'draft'].includes(order.status)
   const canRevise = ['delivered', 'completed'].includes(order.status)
@@ -83,7 +85,10 @@ function OrderDetailPage() {
   }
 
   const summary: Array<[string, string]> = [
-    ['For', `${order.recipient_name}${order.relationship ? ` · ${titleCase(order.relationship)}` : ''}`],
+    [
+      'For',
+      `${order.recipient_name}${order.relationship ? ` · ${titleCase(order.relationship)}` : ''}`,
+    ],
     ['Occasion', titleCase(order.occasion)],
     ['Package', titleCase(order.package_type)],
     ['Delivery', order.delivery_speed === 'rush' ? 'Rush' : 'Standard'],
@@ -107,11 +112,14 @@ function OrderDetailPage() {
           ← All orders
         </Link>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="font-display text-3xl">Song for {order.recipient_name}</h1>
+          <h1 className="font-display text-3xl">
+            Song for {order.recipient_name}
+          </h1>
           <StatusBadge status={order.status} />
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          {order.order_number} · {titleCase(order.occasion)} · {formatUsd(order.price_cents)}
+          {order.order_number} · {titleCase(order.occasion)} ·{' '}
+          {formatUsd(order.price_cents)}
         </p>
       </div>
 
@@ -139,7 +147,12 @@ function OrderDetailPage() {
                 </Button>
               ))}
               {order.share_token && (
-                <Button asChild variant="secondary" size="sm" className="rounded-full">
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-full"
+                >
                   <Link to="/song/$token" params={{ token: order.share_token }}>
                     Open gift page →
                   </Link>
@@ -150,18 +163,29 @@ function OrderDetailPage() {
         </section>
       ) : needsPayment ? (
         <section className="rounded-3xl border border-gold/40 bg-card/70 p-6 text-center shadow-soft sm:p-8">
-          <h2 className="font-display text-xl">Almost there — complete your payment</h2>
+          <h2 className="font-display text-xl">
+            Almost there — complete your payment
+          </h2>
           <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
-            {order.recipient_name}’s song is ready to enter production as soon as
-            payment is confirmed.
+            {order.recipient_name}’s song is ready to enter production as soon
+            as payment is confirmed.
           </p>
           <div className="mt-5 flex items-center justify-center gap-3">
-            <span className="font-display text-2xl">{formatUsd(order.price_cents)}</span>
-            <Button onClick={payNow} disabled={busy} size="lg" className="rounded-full px-7">
+            <span className="font-display text-2xl">
+              {formatUsd(order.price_cents)}
+            </span>
+            <Button
+              onClick={payNow}
+              disabled={busy}
+              size="lg"
+              className="rounded-full px-7"
+            >
               {busy ? 'Redirecting…' : 'Complete payment →'}
             </Button>
           </div>
-          {payError && <p className="mt-3 text-sm text-destructive">{payError}</p>}
+          {payError && (
+            <p className="mt-3 text-sm text-destructive">{payError}</p>
+          )}
         </section>
       ) : (
         <section className="rounded-3xl border border-border/60 bg-card/70 p-6 text-center shadow-soft">
@@ -171,8 +195,10 @@ function OrderDetailPage() {
           <h2 className="mt-3 font-display text-xl">In production</h2>
           <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
             We’re crafting {order.recipient_name}’s song — currently{' '}
-            <span className="font-medium text-foreground">{humanizeStatus(order.status)}</span>.
-            We’ll email you the moment it’s ready.
+            <span className="font-medium text-foreground">
+              {humanizeStatus(order.status)}
+            </span>
+            . We’ll email you the moment it’s ready.
           </p>
         </section>
       )}
@@ -193,7 +219,9 @@ function OrderDetailPage() {
       {/* lyrics */}
       {latestLyrics && (
         <section className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft sm:p-6">
-          <h2 className="font-display text-lg">{latestLyrics.title ?? 'Lyrics'}</h2>
+          <h2 className="font-display text-lg">
+            {latestLyrics.title ?? 'Lyrics'}
+          </h2>
           <pre className="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-foreground/80">
             {latestLyrics.lyrics_text}
           </pre>
@@ -211,7 +239,9 @@ function OrderDetailPage() {
               <li key={e.id} className="relative flex items-start gap-4 pl-6">
                 <span
                   className={`absolute left-0 top-1.5 size-2.5 rounded-full ${
-                    i === order.events.length - 1 ? 'bg-gold ring-4 ring-gold/20' : 'bg-border'
+                    i === order.events.length - 1
+                      ? 'bg-gold ring-4 ring-gold/20'
+                      : 'bg-border'
                   }`}
                 />
                 <div className="flex flex-1 justify-between gap-4 text-sm">

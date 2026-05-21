@@ -11,7 +11,10 @@ export function StepOccasion() {
 
   return (
     <div className="space-y-6">
-      <StepHeader title="What's the occasion?" subtitle="This sets the emotional tone of the song." />
+      <StepHeader
+        title="What's the occasion?"
+        subtitle="This sets the emotional tone of the song."
+      />
 
       <Field label="Occasion" error={errors.occasion}>
         <ChipGroup>
@@ -26,7 +29,10 @@ export function StepOccasion() {
         </ChipGroup>
       </Field>
 
-      <Field label="Occasion date (optional)" hint="Helps us hit your deadline.">
+      <Field
+        label="Occasion date (optional)"
+        hint="Helps us hit your deadline."
+      >
         <Input
           type="date"
           value={data.occasion_date ?? ''}

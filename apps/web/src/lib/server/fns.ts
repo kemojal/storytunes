@@ -19,11 +19,14 @@ export const startOrderCheckout = createServerFn({ method: 'POST' })
   .handler(async ({ data }): Promise<{ url: string | null }> => {
     const session = await getServerSession()
     if (!session?.user) throw new Error('UNAUTHORIZED')
-    const order = await authedApiFetch<OrderDetail>(`/api/orders/${data}/detail`)
+    const order = await authedApiFetch<OrderDetail>(
+      `/api/orders/${data}/detail`,
+    )
     if (!['pending_payment', 'draft'].includes(order.status)) {
       throw new Error('This order is not awaiting payment.')
     }
-    const customerId = (session.user as { stripeCustomerId?: string }).stripeCustomerId
+    const customerId = (session.user as { stripeCustomerId?: string })
+      .stripeCustomerId
     const checkout = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
@@ -32,7 +35,9 @@ export const startOrderCheckout = createServerFn({ method: 'POST' })
           price_data: {
             currency: order.currency,
             unit_amount: order.price_cents,
-            product_data: { name: `StoryTunes custom song — ${order.order_number}` },
+            product_data: {
+              name: `StoryTunes custom song — ${order.order_number}`,
+            },
           },
         },
       ],
@@ -63,7 +68,12 @@ export const fetchSessionUser = createServerFn({ method: 'GET' }).handler(
     const session = await getServerSession()
     if (!session?.user) return null
     const u = session.user as SessionUser
-    return { id: u.id, name: u.name, email: u.email, role: u.role ?? 'customer' }
+    return {
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      role: u.role ?? 'customer',
+    }
   },
 )
 
@@ -73,7 +83,9 @@ export const fetchMyOrders = createServerFn({ method: 'GET' }).handler(() =>
 
 export const fetchOrderDetail = createServerFn({ method: 'GET' })
   .inputValidator((orderId: string) => orderId)
-  .handler(({ data }) => authedApiFetch<OrderDetail>(`/api/orders/${data}/detail`))
+  .handler(({ data }) =>
+    authedApiFetch<OrderDetail>(`/api/orders/${data}/detail`),
+  )
 
 export const fetchDownloadUrl = createServerFn({ method: 'GET' })
   .inputValidator((fileId: string) => fileId)
@@ -82,10 +94,16 @@ export const fetchDownloadUrl = createServerFn({ method: 'GET' })
   )
 
 export const requestRevision = createServerFn({ method: 'POST' })
-  .inputValidator((input: { orderId: string; revision_type: string; message: string }) => input)
+  .inputValidator(
+    (input: { orderId: string; revision_type: string; message: string }) =>
+      input,
+  )
   .handler(({ data }) =>
     authedApiFetch<Revision>(`/api/orders/${data.orderId}/revisions`, {
       method: 'POST',
-      body: JSON.stringify({ revision_type: data.revision_type, message: data.message }),
+      body: JSON.stringify({
+        revision_type: data.revision_type,
+        message: data.message,
+      }),
     }),
   )

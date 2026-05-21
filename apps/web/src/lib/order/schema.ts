@@ -8,7 +8,8 @@ import {
   TEMPOS,
 } from './constants'
 
-const enumOf = <T extends readonly [string, ...string[]]>(vals: T) => z.enum(vals)
+const enumOf = <T extends readonly [string, ...string[]]>(vals: T) =>
+  z.enum(vals)
 
 // Per-step schemas. Each step validates only its own slice on "Next".
 export const occasionSchema = z.object({
@@ -35,7 +36,9 @@ export const styleSchema = z.object({
   genre: enumOf(GENRES).optional(),
   mood: z.array(enumOf(MOODS)).min(1, 'Pick at least one mood'),
   tempo: z.enum(TEMPOS.map((t) => t.value) as [string, ...string[]]),
-  song_length: z.enum(SONG_LENGTHS.map((s) => s.value) as [string, ...string[]]),
+  song_length: z.enum(
+    SONG_LENGTHS.map((s) => s.value) as [string, ...string[]],
+  ),
 })
 
 export const storySchema = z.object({

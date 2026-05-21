@@ -18,14 +18,22 @@ import { StepReview } from './steps/StepReview'
 
 function renderStep(key: (typeof STEPS)[number]['key']) {
   switch (key) {
-    case 'occasion': return <StepOccasion />
-    case 'recipient': return <StepRecipient />
-    case 'package': return <StepPackage />
-    case 'artist': return <StepArtist />
-    case 'style': return <StepStyle />
-    case 'story': return <StepStory />
-    case 'addons': return <StepAddons />
-    case 'review': return <StepReview />
+    case 'occasion':
+      return <StepOccasion />
+    case 'recipient':
+      return <StepRecipient />
+    case 'package':
+      return <StepPackage />
+    case 'artist':
+      return <StepArtist />
+    case 'style':
+      return <StepStyle />
+    case 'story':
+      return <StepStory />
+    case 'addons':
+      return <StepAddons />
+    case 'review':
+      return <StepReview />
   }
 }
 
@@ -85,25 +93,33 @@ export function Wizard() {
           <span className="flex size-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
             ♪
           </span>
-          <span className="font-display text-base font-semibold">StoryTunes</span>
+          <span className="font-display text-base font-semibold">
+            StoryTunes
+          </span>
         </Link>
       </div>
 
       {/* progress */}
       <div className="mb-8">
         <div className="mb-2.5 flex items-baseline justify-between text-xs">
-          <span className="font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          <span className="font-semibold uppercase tracking-[0.14em] text-muted-foreground/80">
             Step {stepIndex + 1} / {STEPS.length}
           </span>
-          <span className="font-medium text-foreground/70">{step.title}</span>
+          <span className="font-semibold text-foreground/80 tracking-wide">
+            {step.title}
+          </span>
         </div>
-        <div className="flex gap-1.5">
+        <div className="flex gap-2">
           {STEPS.map((s, i) => (
             <span
               key={s.key}
               className={cn(
-                'h-1.5 flex-1 rounded-full transition-colors duration-300',
-                i < stepIndex ? 'bg-gold' : i === stepIndex ? 'bg-primary' : 'bg-border',
+                'h-1.5 flex-1 rounded-full transition-all duration-500 ease-out',
+                i < stepIndex
+                  ? 'bg-gold shadow-[0_0_8px_rgba(200,160,80,0.4)]'
+                  : i === stepIndex
+                    ? 'bg-primary shadow-[0_0_8px_var(--primary)]'
+                    : 'bg-border/60',
               )}
             />
           ))}
@@ -111,14 +127,15 @@ export function Wizard() {
       </div>
 
       {/* step card */}
-      <div className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-soft sm:p-8">
+      <div className="relative rounded-3xl border border-border/50 bg-card/85 premium-glass p-6 shadow-soft-lg sm:p-8">
+        <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-gold/5 to-rose/5 blur-2xl opacity-20 -z-10" />
         <div key={step.key} className="rise-in">
           {renderStep(step.key)}
         </div>
       </div>
 
       {error && (
-        <p className="mt-4 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+        <p className="mt-4 rounded-xl bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive animate-pulse">
           {error}
         </p>
       )}
@@ -128,22 +145,31 @@ export function Wizard() {
           variant="ghost"
           onClick={back}
           disabled={stepIndex === 0 || submitting}
-          className="rounded-full"
+          className="rounded-full px-5 hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-300 hover:scale-105 active:scale-95"
         >
           ← Back
         </Button>
         {isLast ? (
-          <Button onClick={payAndPlaceOrder} disabled={submitting} size="lg" className="rounded-full px-7">
+          <Button
+            onClick={payAndPlaceOrder}
+            disabled={submitting}
+            size="lg"
+            className="rounded-full px-8 shadow-soft-lg hover:scale-105 active:scale-95 transition-all duration-300"
+          >
             {submitting ? 'Redirecting…' : 'Pay & place order'}
           </Button>
         ) : (
-          <Button onClick={next} size="lg" className="rounded-full px-7">
+          <Button
+            onClick={next}
+            size="lg"
+            className="rounded-full px-8 shadow-soft-lg hover:scale-105 active:scale-95 transition-all duration-300"
+          >
             Continue →
           </Button>
         )}
       </div>
-      <p className="mt-4 text-center text-xs text-muted-foreground/70">
-        Your progress is saved as you go.
+      <p className="mt-5 text-center text-xs font-semibold tracking-wide text-muted-foreground/60">
+        YOUR PROGRESS IS SAVED AS YOU GO.
       </p>
     </div>
   )

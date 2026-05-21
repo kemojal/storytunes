@@ -63,7 +63,11 @@ function SignIn() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                 />
-                <Button className="w-full rounded-full" onClick={sendCode} disabled={loading || !email}>
+                <Button
+                  className="w-full rounded-full"
+                  onClick={sendCode}
+                  disabled={loading || !email}
+                >
                   {loading ? 'Sending…' : 'Email me a code'}
                 </Button>
               </div>
@@ -78,7 +82,11 @@ function SignIn() {
                   placeholder="123456"
                   className="text-center text-lg tracking-[0.3em]"
                 />
-                <Button className="w-full rounded-full" onClick={verifyCode} disabled={loading || !code}>
+                <Button
+                  className="w-full rounded-full"
+                  onClick={verifyCode}
+                  disabled={loading || !code}
+                >
                   {loading ? 'Verifying…' : 'Verify & sign in'}
                 </Button>
                 <button
@@ -100,12 +108,19 @@ function SignIn() {
             <Button
               variant="outline"
               className="w-full rounded-full"
-              onClick={() => authClient.signIn.social({ provider: 'google', callbackURL: '/' })}
+              onClick={() =>
+                authClient.signIn.social({
+                  provider: 'google',
+                  callbackURL: '/',
+                })
+              }
             >
               Continue with Google
             </Button>
 
-            {error && <p className="text-center text-sm text-destructive">{error}</p>}
+            {error && (
+              <p className="text-center text-sm text-destructive">{error}</p>
+            )}
           </div>
         </div>
 

@@ -12,7 +12,7 @@ export function ArtistCard({ artist: a }: { artist: Artist }) {
           alt={a.name}
           className="aspect-[3/4] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           onError={(e) => {
-            ;(e.currentTarget as HTMLImageElement).src = '/logo-mark.svg'
+            ;(e.currentTarget).src = '/logo-mark.svg'
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
@@ -21,7 +21,9 @@ export function ArtistCard({ artist: a }: { artist: Artist }) {
             <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gold text-primary shadow-soft transition-transform group-hover:scale-110">
               ▶
             </span>
-            <span className="font-display text-base leading-tight drop-shadow">{a.name}</span>
+            <span className="font-display text-base leading-tight drop-shadow">
+              {a.name}
+            </span>
           </div>
           {a.genres && (
             <p className="mt-1.5 truncate text-[11px] text-white/80">

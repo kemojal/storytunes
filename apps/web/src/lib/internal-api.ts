@@ -30,7 +30,11 @@ export async function forwardStripeEventToApi(event: {
         'content-type': 'application/json',
         'x-internal-key': INTERNAL_API_KEY,
       },
-      body: JSON.stringify({ id: event.id, type: event.type, data: event.data }),
+      body: JSON.stringify({
+        id: event.id,
+        type: event.type,
+        data: event.data,
+      }),
     })
     if (!res.ok) {
       console.error(

@@ -5,9 +5,20 @@
 export type Option<T extends string = string> = { value: T; label: string }
 
 export const OCCASIONS = [
-  'anniversary', 'birthday', 'wedding', 'proposal', 'valentines',
-  'mothers_day', 'fathers_day', 'graduation', 'apology', 'friendship',
-  'long_distance', 'memorial', 'just_because', 'other',
+  'anniversary',
+  'birthday',
+  'wedding',
+  'proposal',
+  'valentines',
+  'mothers_day',
+  'fathers_day',
+  'graduation',
+  'apology',
+  'friendship',
+  'long_distance',
+  'memorial',
+  'just_because',
+  'other',
 ] as const
 
 export const OCCASION_LABELS: Record<(typeof OCCASIONS)[number], string> = {
@@ -28,8 +39,17 @@ export const OCCASION_LABELS: Record<(typeof OCCASIONS)[number], string> = {
 }
 
 export const RELATIONSHIPS = [
-  'wife', 'husband', 'girlfriend', 'boyfriend', 'mom', 'dad',
-  'friend', 'sibling', 'child', 'grandparent', 'other',
+  'wife',
+  'husband',
+  'girlfriend',
+  'boyfriend',
+  'mom',
+  'dad',
+  'friend',
+  'sibling',
+  'child',
+  'grandparent',
+  'other',
 ] as const
 
 export const MENTION_PREFERENCES = [
@@ -39,13 +59,30 @@ export const MENTION_PREFERENCES = [
 ] as const
 
 export const GENRES = [
-  'acoustic_pop', 'rnb', 'soul', 'afrobeat', 'gospel', 'country',
-  'folk', 'piano_ballad', 'pop_ballad', 'soft_rock', 'custom',
+  'acoustic_pop',
+  'rnb',
+  'soul',
+  'afrobeat',
+  'gospel',
+  'country',
+  'folk',
+  'piano_ballad',
+  'pop_ballad',
+  'soft_rock',
+  'custom',
 ] as const
 
 export const MOODS = [
-  'romantic', 'emotional', 'joyful', 'nostalgic', 'funny',
-  'heartfelt', 'uplifting', 'peaceful', 'celebratory', 'hopeful',
+  'romantic',
+  'emotional',
+  'joyful',
+  'nostalgic',
+  'funny',
+  'heartfelt',
+  'uplifting',
+  'peaceful',
+  'celebratory',
+  'hopeful',
 ] as const
 
 export const TEMPOS = [
@@ -62,8 +99,16 @@ export const SONG_LENGTHS = [
 ] as const
 
 export const DESIRED_FEELINGS = [
-  'loved', 'appreciated', 'seen', 'celebrated', 'forgiven',
-  'missed', 'proud', 'remembered', 'hopeful', 'emotional',
+  'loved',
+  'appreciated',
+  'seen',
+  'celebrated',
+  'forgiven',
+  'missed',
+  'proud',
+  'remembered',
+  'hopeful',
+  'emotional',
 ] as const
 
 export type PackageType = 'starter' | 'signature' | 'premium'
@@ -87,18 +132,32 @@ export const PACKAGES: Array<{
     name: 'Signature Song',
     priceCents: 9900,
     blurb: '2–3 min · human-polished · 5–7 days',
-    features: ['Custom lyrics', 'Selected artist style', 'Lyric sheet', '1 revision'],
+    features: [
+      'Custom lyrics',
+      'Selected artist style',
+      'Lyric sheet',
+      '1 revision',
+    ],
   },
   {
     value: 'premium',
     name: 'Premium Band Song',
     priceCents: 19900,
     blurb: '3–4 min · human/band production · 7–10 days',
-    features: ['MP3 + WAV', 'Instrumental version', 'Private share page', '2 revisions'],
+    features: [
+      'MP3 + WAV',
+      'Instrumental version',
+      'Private share page',
+      '2 revisions',
+    ],
   },
 ]
 
-export const ADDONS: Array<{ value: string; label: string; priceCents: number }> = [
+export const ADDONS: Array<{
+  value: string
+  label: string
+  priceCents: number
+}> = [
   { value: 'rush', label: 'Rush delivery', priceCents: 2900 },
   { value: 'instrumental', label: 'Instrumental version', priceCents: 1500 },
   { value: 'lyric_sheet', label: 'Printable lyric sheet', priceCents: 900 },

@@ -13,7 +13,11 @@ export function StepArtist() {
   const preselected = useRef(false)
 
   // Use the server fn (same-origin, hits the api server-side) — no CORS/port issues.
-  const { data: artists, isLoading, isError } = useQuery({
+  const {
+    data: artists,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['artists'],
     queryFn: () => fetchArtists(),
     retry: false,
@@ -32,7 +36,10 @@ export function StepArtist() {
 
   return (
     <div className="space-y-6">
-      <StepHeader title="Choose your artist" subtitle="Pick a voice, or let us match one to your story." />
+      <StepHeader
+        title="Choose your artist"
+        subtitle="Pick a voice, or let us match one to your story."
+      />
 
       <div className="flex gap-2">
         <OptionChip
@@ -71,8 +78,8 @@ export function StepArtist() {
           )}
           {isError && (
             <p className="text-sm text-muted-foreground">
-              Couldn't load artists (is the api running?). You can still continue with
-              “Help me choose”.
+              Couldn't load artists (is the api running?). You can still
+              continue with “Help me choose”.
             </p>
           )}
           {artists && artists.length === 0 && (
@@ -88,7 +95,9 @@ export function StepArtist() {
                   onClick={() => setField('artist_id', a.id)}
                   className={cn(
                     'flex gap-3 rounded-xl border p-4 text-left transition-colors',
-                    selected ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft' : 'border-input hover:border-primary/50',
+                    selected
+                      ? 'border-gold bg-accent/30 ring-2 ring-gold/40 shadow-soft'
+                      : 'border-input hover:border-primary/50',
                   )}
                 >
                   <img
@@ -96,13 +105,16 @@ export function StepArtist() {
                     alt={a.name}
                     className="size-12 shrink-0 rounded-full object-cover ring-1 ring-border"
                     onError={(e) => {
-                      ;(e.currentTarget as HTMLImageElement).src = '/logo-mark.svg'
+                      ;(e.currentTarget).src =
+                        '/logo-mark.svg'
                     }}
                   />
                   <div>
                     <div className="font-medium">{a.name}</div>
                     {a.voice_description && (
-                      <div className="text-xs text-muted-foreground">{a.voice_description}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {a.voice_description}
+                      </div>
                     )}
                     {a.best_for && (
                       <div className="mt-1 text-xs text-muted-foreground">

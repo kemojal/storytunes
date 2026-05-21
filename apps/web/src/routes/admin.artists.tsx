@@ -10,7 +10,11 @@ export const Route = createFileRoute('/admin/artists')({
 })
 
 function slugify(s: string) {
-  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 function AdminArtists() {
@@ -25,7 +29,11 @@ function AdminArtists() {
     setBusy(true)
     try {
       await adminCreateArtist({
-        data: { name, slug: slugify(name), voice_description: voice || undefined },
+        data: {
+          name,
+          slug: slugify(name),
+          voice_description: voice || undefined,
+        },
       })
       setName('')
       setVoice('')
@@ -42,11 +50,19 @@ function AdminArtists() {
       <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
         <div className="flex-1">
           <label className="text-sm font-medium">Name</label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Maya" />
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Maya"
+          />
         </div>
         <div className="flex-[2]">
           <label className="text-sm font-medium">Voice description</label>
-          <Input value={voice} onChange={(e) => setVoice(e.target.value)} placeholder="Soft, warm…" />
+          <Input
+            value={voice}
+            onChange={(e) => setVoice(e.target.value)}
+            placeholder="Soft, warm…"
+          />
         </div>
         <Button onClick={create} disabled={busy || !name.trim()}>
           Add artist
@@ -55,7 +71,9 @@ function AdminArtists() {
 
       <div className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-soft">
         {artists.length === 0 && (
-          <div className="p-6 text-center text-muted-foreground">No artists yet.</div>
+          <div className="p-6 text-center text-muted-foreground">
+            No artists yet.
+          </div>
         )}
         {artists.map((a) => (
           <div key={a.id} className="px-5 py-4">

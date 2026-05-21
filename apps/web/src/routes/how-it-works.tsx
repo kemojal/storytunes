@@ -64,7 +64,9 @@ function HowItWorks() {
                     {meta}
                   </span>
                 </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  {desc}
+                </p>
               </div>
             </li>
           ))}
@@ -76,10 +78,19 @@ function HowItWorks() {
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             ['100% original', 'Written for one person — never a template.'],
-            ['Human-reviewed', 'A person checks every song for heart and accuracy.'],
-            ['Revisions included', 'We refine it until it feels exactly right.'],
+            [
+              'Human-reviewed',
+              'A person checks every song for heart and accuracy.',
+            ],
+            [
+              'Revisions included',
+              'We refine it until it feels exactly right.',
+            ],
           ].map(([t, d]) => (
-            <div key={t} className="rounded-2xl border border-border/60 bg-card/50 p-5 text-center">
+            <div
+              key={t}
+              className="rounded-2xl border border-border/60 bg-card/50 p-5 text-center"
+            >
               <div className="font-display text-base">{t}</div>
               <p className="mt-1 text-sm text-muted-foreground">{d}</p>
             </div>
@@ -90,10 +101,13 @@ function HowItWorks() {
       {/* AI disclosure */}
       <section className="mx-auto max-w-3xl px-6 py-6">
         <p className="rounded-2xl border border-border/60 bg-muted/40 p-5 text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">A note on how songs are made:</span>{' '}
-          we use a blend of AI-assisted tools, human songwriting, artist review, and
-          production editing. Premium packages may include additional human
-          performance and production. We never copy real artists or copyrighted music.
+          <span className="font-medium text-foreground">
+            A note on how songs are made:
+          </span>{' '}
+          we use a blend of AI-assisted tools, human songwriting, artist review,
+          and production editing. Premium packages may include additional human
+          performance and production. We never copy real artists or copyrighted
+          music.
         </p>
       </section>
 
@@ -104,7 +118,12 @@ function HowItWorks() {
           <p className="mx-auto mt-2 max-w-sm text-primary-foreground/75">
             Five minutes of memories is all it takes to start.
           </p>
-          <Button asChild size="lg" variant="secondary" className="mt-6 rounded-full px-8">
+          <Button
+            asChild
+            size="lg"
+            variant="secondary"
+            className="mt-6 rounded-full px-8"
+          >
             <Link to="/order">Create their song</Link>
           </Button>
         </div>

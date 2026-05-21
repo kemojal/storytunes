@@ -24,7 +24,10 @@ function Overview() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         {cards.map((c, i) => (
-          <div key={c.label} className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft">
+          <div
+            key={c.label}
+            className="rounded-2xl border border-border/60 bg-card/70 p-5 shadow-soft"
+          >
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">{c.label}</span>
               <span className="text-base opacity-70">{icons[i]}</span>
@@ -53,7 +56,9 @@ function Overview() {
             </Link>
           ))}
           {Object.keys(stats.by_status).length === 0 && (
-            <span className="text-sm text-muted-foreground">No orders yet.</span>
+            <span className="text-sm text-muted-foreground">
+              No orders yet.
+            </span>
           )}
         </div>
       </div>

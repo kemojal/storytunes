@@ -26,7 +26,9 @@ function AdminOrders() {
     <div className="space-y-6">
       <div className="flex items-end justify-between">
         <h1 className="font-display text-2xl">Orders</h1>
-        <span className="text-sm text-muted-foreground">{orders.length} shown</span>
+        <span className="text-sm text-muted-foreground">
+          {orders.length} shown
+        </span>
       </div>
 
       <div className="flex flex-wrap gap-1.5">
@@ -54,7 +56,8 @@ function AdminOrders() {
       <div className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-soft">
         {orders.length === 0 && (
           <div className="p-10 text-center text-muted-foreground">
-            No orders{status ? ` with status “${status.replace(/_/g, ' ')}”` : ''}.
+            No orders
+            {status ? ` with status “${status.replace(/_/g, ' ')}”` : ''}.
           </div>
         )}
         {orders.map((o) => (
@@ -67,10 +70,13 @@ function AdminOrders() {
             <div className="min-w-0">
               <div className="truncate font-medium">
                 {o.recipient_name}{' '}
-                <span className="font-normal text-muted-foreground">· {o.order_number}</span>
+                <span className="font-normal text-muted-foreground">
+                  · {o.order_number}
+                </span>
               </div>
               <div className="mt-0.5 truncate text-xs text-muted-foreground">
-                {titleCase(o.occasion)} · {titleCase(o.package_type)} · {formatUsd(o.price_cents)}
+                {titleCase(o.occasion)} · {titleCase(o.package_type)} ·{' '}
+                {formatUsd(o.price_cents)}
               </div>
             </div>
             <StatusBadge status={o.status} />

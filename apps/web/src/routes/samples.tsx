@@ -23,8 +23,9 @@ function Samples() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-4xl">Hear what “made for them” sounds like</h1>
         <p className="mt-3 max-w-lg text-muted-foreground">
-          A few songs we’ve crafted for real occasions. Yours won’t sound like any
-          of these — it’ll sound like <em className="not-italic text-rose">your</em> story.
+          A few songs we’ve crafted for real occasions. Yours won’t sound like
+          any of these — it’ll sound like{' '}
+          <em className="not-italic text-rose">your</em> story.
         </p>
 
         {samples.length === 0 ? (
@@ -42,11 +43,14 @@ function Samples() {
                     alt=""
                     className="size-16 shrink-0 rounded-xl object-cover sm:size-20"
                     onError={(e) => {
-                      ;(e.currentTarget as HTMLImageElement).src = '/samples/share-cover-default.png'
+                      ;(e.currentTarget).src =
+                        '/samples/share-cover-default.png'
                     }}
                   />
                   <div className="min-w-0 flex-1">
-                    <h2 className="truncate font-display text-lg leading-tight">{s.title}</h2>
+                    <h2 className="truncate font-display text-lg leading-tight">
+                      {s.title}
+                    </h2>
                     <p className="mt-0.5 truncate text-xs text-muted-foreground">
                       {[s.occasion && titleCase(s.occasion), s.artist_name]
                         .filter(Boolean)

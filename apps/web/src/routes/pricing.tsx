@@ -16,7 +16,9 @@ function Pricing() {
         <p className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Pricing
         </p>
-        <h1 className="mt-3 text-center text-4xl">A keepsake costs less than dinner out</h1>
+        <h1 className="mt-3 text-center text-4xl">
+          A keepsake costs less than dinner out
+        </h1>
         <p className="mx-auto mt-3 max-w-lg text-center text-muted-foreground">
           Every package is a fully original song, written for one person and
           reviewed by a human. Pick how much polish and production you want.
@@ -30,7 +32,9 @@ function Pricing() {
                 key={p.value}
                 className={cn(
                   'relative flex flex-col rounded-3xl border bg-card/70 p-6 shadow-soft',
-                  popular ? 'border-gold ring-2 ring-gold/40 md:-mt-3 md:pb-8' : 'border-border/60',
+                  popular
+                    ? 'border-gold ring-2 ring-gold/40 md:-mt-3 md:pb-8'
+                    : 'border-border/60',
                 )}
               >
                 {popular && (
@@ -40,8 +44,12 @@ function Pricing() {
                 )}
                 <h2 className="font-display text-xl">{p.name}</h2>
                 <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">{formatUsd(p.priceCents)}</span>
-                  <span className="text-sm text-muted-foreground">one-time</span>
+                  <span className="text-4xl font-bold">
+                    {formatUsd(p.priceCents)}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    one-time
+                  </span>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">{p.blurb}</p>
                 <ul className="mt-5 flex-1 space-y-2.5 text-sm text-muted-foreground">
@@ -71,7 +79,9 @@ function Pricing() {
 
         {/* add-ons */}
         <div className="mt-16">
-          <h2 className="text-center font-display text-2xl">Make it even more theirs</h2>
+          <h2 className="text-center font-display text-2xl">
+            Make it even more theirs
+          </h2>
           <div className="mx-auto mt-6 grid max-w-3xl gap-3 sm:grid-cols-2">
             {ADDONS.map((a) => (
               <div
@@ -79,7 +89,9 @@ function Pricing() {
                 className="flex items-center justify-between rounded-xl border border-border/60 bg-card/50 px-4 py-3 text-sm"
               >
                 <span>{a.label}</span>
-                <span className="font-medium text-muted-foreground">+{formatUsd(a.priceCents)}</span>
+                <span className="font-medium text-muted-foreground">
+                  +{formatUsd(a.priceCents)}
+                </span>
               </div>
             ))}
           </div>

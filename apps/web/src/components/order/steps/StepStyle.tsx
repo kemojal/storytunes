@@ -1,6 +1,12 @@
 import { useStore } from '@tanstack/react-store'
 import { setField, toggleInArray, wizardStore } from '#/lib/order/store'
-import { GENRES, MOODS, SONG_LENGTHS, TEMPOS, titleCase } from '#/lib/order/constants'
+import {
+  GENRES,
+  MOODS,
+  SONG_LENGTHS,
+  TEMPOS,
+  titleCase,
+} from '#/lib/order/constants'
 import { ChipGroup, Field, OptionChip, StepHeader } from '../primitives'
 
 export function StepStyle() {

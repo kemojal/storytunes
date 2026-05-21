@@ -21,12 +21,19 @@ function DashboardLayout() {
             <span className="flex size-7 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">
               ♪
             </span>
-            <span className="font-display text-lg font-semibold">StoryTunes</span>
+            <span className="font-display text-lg font-semibold">
+              StoryTunes
+            </span>
           </Link>
           <div className="flex items-center gap-4 text-sm">
-            <span className="hidden text-muted-foreground sm:inline">{user.email}</span>
+            <span className="hidden text-muted-foreground sm:inline">
+              {user.email}
+            </span>
             {user.role !== 'customer' && (
-              <Link to="/admin" className="font-medium text-foreground hover:text-rose">
+              <Link
+                to="/admin"
+                className="font-medium text-foreground hover:text-rose"
+              >
                 Admin
               </Link>
             )}

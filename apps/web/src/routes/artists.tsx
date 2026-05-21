@@ -11,8 +11,8 @@ export const Route = createFileRoute('/artists')({
       <div className="mx-auto max-w-md px-6 py-24 text-center">
         <p className="font-display text-2xl">We couldn’t load the artists</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Please refresh in a moment. (Developing? Make sure the API is running —
-          <code> pnpm dev</code> starts it on <code>:8008</code>.)
+          Please refresh in a moment. (Developing? Make sure the API is running
+          —<code> pnpm dev</code> starts it on <code>:8008</code>.)
         </p>
       </div>
     </MarketingShell>
@@ -28,8 +28,8 @@ function Artists() {
         <div className="max-w-lg">
           <h1 className="text-4xl">The voice behind your song</h1>
           <p className="mt-3 text-muted-foreground">
-            Every artist carries a different feeling. Pick the one that sounds like
-            your story — or let us match you.
+            Every artist carries a different feeling. Pick the one that sounds
+            like your story — or let us match you.
           </p>
         </div>
 

@@ -43,20 +43,47 @@ export function StepReview() {
 
   return (
     <div className="space-y-6">
-      <StepHeader title="Review your order" subtitle="Make sure everything feels right." />
+      <StepHeader
+        title="Review your order"
+        subtitle="Make sure everything feels right."
+      />
 
       <div className="rounded-xl border p-5">
-        <Row label="For" value={`${data.recipient_name ?? ''} (${data.relationship ? titleCase(data.relationship) : ''})`} />
-        <Row label="Occasion" value={data.occasion ? OCCASION_LABELS[data.occasion] : ''} />
-        <Row label="Mention name" value={labelOf(MENTION_PREFERENCES, data.mention_name_preference)} />
+        <Row
+          label="For"
+          value={`${data.recipient_name ?? ''} (${data.relationship ? titleCase(data.relationship) : ''})`}
+        />
+        <Row
+          label="Occasion"
+          value={data.occasion ? OCCASION_LABELS[data.occasion] : ''}
+        />
+        <Row
+          label="Mention name"
+          value={labelOf(MENTION_PREFERENCES, data.mention_name_preference)}
+        />
         <Row label="Package" value={pkg?.name ?? ''} />
-        <Row label="Artist" value={data.artist_mode === 'pick' ? (data.artist_id ?? 'Selected') : 'Help me choose'} />
+        <Row
+          label="Artist"
+          value={
+            data.artist_mode === 'pick'
+              ? (data.artist_id ?? 'Selected')
+              : 'Help me choose'
+          }
+        />
         <Row label="Genre" value={data.genre ? titleCase(data.genre) : ''} />
         <Row label="Mood" value={(data.mood ?? []).map(titleCase).join(', ')} />
         <Row label="Tempo" value={labelOf(TEMPOS, data.tempo)} />
         <Row label="Length" value={labelOf(SONG_LENGTHS, data.song_length)} />
-        <Row label="Delivery" value={data.delivery_speed === 'rush' ? 'Rush' : 'Standard'} />
-        <Row label="Add-ons" value={(data.addons ?? []).map((v) => ADDONS.find((a) => a.value === v)?.label ?? v).join(', ')} />
+        <Row
+          label="Delivery"
+          value={data.delivery_speed === 'rush' ? 'Rush' : 'Standard'}
+        />
+        <Row
+          label="Add-ons"
+          value={(data.addons ?? [])
+            .map((v) => ADDONS.find((a) => a.value === v)?.label ?? v)
+            .join(', ')}
+        />
       </div>
 
       <div className="flex items-center justify-between rounded-xl border bg-muted/30 p-5">
