@@ -36,8 +36,11 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-2.5-flash"
 
     # ---- AI: music generation (pluggable) ----
-    # one of: stub | lyria | replicate | suno | elevenlabs
-    music_provider: str = "lyria"
+    # one of: ace | stub | lyria | replicate | suno | elevenlabs
+    music_provider: str = "ace"
+    ace_music_api_key: str = ""
+    ace_music_api_base: str = "https://api.acemusic.ai"
+    ace_music_model: str = "acemusic/acestep-v1.5-turbo"
     lyria_model: str = "models/lyria-3-pro-preview"  # Google Lyria (uses GEMINI_API_KEY)
     replicate_api_token: str = ""
     replicate_music_model: str = "meta/musicgen"

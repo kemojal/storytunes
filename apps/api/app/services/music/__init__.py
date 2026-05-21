@@ -28,6 +28,7 @@ class MusicProvider:
 
 
 def _provider() -> MusicProvider:
+    from app.services.music.ace import AceProvider
     from app.services.music.elevenlabs import ElevenLabsProvider
     from app.services.music.lyria import LyriaProvider
     from app.services.music.replicate import ReplicateProvider
@@ -35,6 +36,7 @@ def _provider() -> MusicProvider:
     from app.services.music.suno import SunoProvider
 
     return {
+        "ace": AceProvider,
         "stub": StubProvider,
         "lyria": LyriaProvider,
         "replicate": ReplicateProvider,

@@ -4,6 +4,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { back, next, validateStep, wizardStore } from '#/lib/order/store'
 import { STEPS } from '#/lib/order/schema'
 import { useSession } from '#/lib/auth-client'
+import { analytics } from '#/lib/analytics'
 import { Button } from '#/components/ui/button'
 import { cn } from '#/lib/utils'
 
@@ -51,6 +52,22 @@ export function Wizard() {
   const step = STEPS[stepIndex]
   const isLast = stepIndex === STEPS.length - 1
 
+  // Funnel: emit a step-viewed event per step so PostHog shows how far visitors
+  // get and where they drop off. order_started fires once on first mount.
+  useEffect(() => {
+    if (!mounted) return
+    if (stepIndex === 0) analytics.track('order_started')
+  }, [mounted])
+  useEffect(() => {
+    if (mounted) {
+      analytics.track('order_step_viewed', {
+        step: step.key,
+        index: stepIndex,
+        total: STEPS.length,
+      })
+    }
+  }, [mounted, stepIndex, step.key])
+
   if (!mounted) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center text-muted-foreground">
@@ -61,6 +78,9 @@ export function Wizard() {
 
   async function payAndPlaceOrder() {
     if (!validateStep(stepIndex)) return
+    analytics.track('checkout_started', {
+      package: wizardStore.state.data.package_type,
+    })
     if (!session) {
       navigate({ to: '/sign-in' })
       return

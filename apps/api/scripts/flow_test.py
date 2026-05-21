@@ -117,9 +117,10 @@ def main() -> None:
 
     # 3. detail -> lyrics generated
     d = c.get(f"/api/orders/{oid}/detail", headers=auth).json()
+    # With automation + eager Celery the pipeline may run to completion inline.
     check(
         "status advanced past paid",
-        d["status"] in ("lyrics_review", "lyrics_generation", "story_review"),
+        d["status"] not in ("paid", "pending_payment", "draft"),
         d["status"],
     )
     has_lyrics = len(d["lyrics"]) > 0

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
+import { analytics } from '#/lib/analytics'
 import { Button } from '#/components/ui/button'
 
 const KEY = 'st-cookie-consent'
@@ -17,6 +18,8 @@ export function CookieConsent() {
 
   function dismiss(value: 'accepted' | 'declined') {
     localStorage.setItem(KEY, value)
+    if (value === 'accepted') analytics.optIn()
+    else analytics.optOut()
     setShow(false)
   }
 

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { resetWizard } from '#/lib/order/store'
+import { analytics } from '#/lib/analytics'
 import { Button } from '#/components/ui/button'
 
 export const Route = createFileRoute('/order/success')({
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/order/success')({
 function OrderSuccess() {
   // Payment confirmed by Stripe -> webhook -> api. Clear the local draft.
   useEffect(() => {
+    analytics.track('order_completed')
     resetWizard()
   }, [])
 
