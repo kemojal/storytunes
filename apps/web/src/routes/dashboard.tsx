@@ -37,6 +37,12 @@ function DashboardLayout() {
                 Admin
               </Link>
             )}
+            <Link
+              to="/dashboard/account"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Account
+            </Link>
             <button
               onClick={() => signOut()}
               className="text-muted-foreground transition-colors hover:text-foreground"

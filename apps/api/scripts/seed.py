@@ -50,7 +50,7 @@ SAMPLES = [
         "occasion": "anniversary",
         "mood": "romantic",
         "artist_name": "Maya",
-        "audio_url": "https://example.com/samples/anniversary.mp3",
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         "description": "A soft R&B ballad for a fifth anniversary.",
     },
     {
@@ -58,7 +58,7 @@ SAMPLES = [
         "occasion": "fathers_day",
         "mood": "heartfelt",
         "artist_name": "Theo",
-        "audio_url": "https://example.com/samples/fathers-day.mp3",
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
         "description": "An acoustic folk tribute to dad.",
     },
     {
@@ -66,7 +66,7 @@ SAMPLES = [
         "occasion": "birthday",
         "mood": "joyful",
         "artist_name": "Zara",
-        "audio_url": "https://example.com/samples/birthday.mp3",
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
         "description": "An upbeat afrobeat birthday anthem.",
     },
 ]

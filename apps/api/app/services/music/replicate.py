@@ -26,9 +26,7 @@ class ReplicateProvider(MusicProvider):
         }
         with httpx.Client(timeout=240) as client:
             # Resolve the model's latest version, then create a prediction.
-            model = client.get(
-                f"{_BASE}/models/{settings.replicate_music_model}", headers=headers
-            )
+            model = client.get(f"{_BASE}/models/{settings.replicate_music_model}", headers=headers)
             model.raise_for_status()
             version = model.json()["latest_version"]["id"]
             create = client.post(

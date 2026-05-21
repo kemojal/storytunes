@@ -9,8 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SamplesRouteImport } from './routes/samples'
+import { Route as RefundRouteImport } from './routes/refund'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OrderRouteImport } from './routes/order'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
@@ -24,6 +27,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SongTokenRouteImport } from './routes/song.$token'
 import { Route as OrderSuccessRouteImport } from './routes/order.success'
+import { Route as DashboardAccountRouteImport } from './routes/dashboard.account'
 import { Route as ApiCheckoutRouteImport } from './routes/api/checkout'
 import { Route as AdminSamplesRouteImport } from './routes/admin.samples'
 import { Route as AdminRevisionsRouteImport } from './routes/admin.revisions'
@@ -33,6 +37,11 @@ import { Route as DashboardOrdersOrderIdRouteImport } from './routes/dashboard.o
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminOrdersOrderIdRouteImport } from './routes/admin.orders.$orderId'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
@@ -41,6 +50,16 @@ const SignInRoute = SignInRouteImport.update({
 const SamplesRoute = SamplesRouteImport.update({
   id: '/samples',
   path: '/samples',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundRoute = RefundRouteImport.update({
+  id: '/refund',
+  path: '/refund',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -108,6 +127,11 @@ const OrderSuccessRoute = OrderSuccessRouteImport.update({
   path: '/success',
   getParentRoute: () => OrderRoute,
 } as any)
+const DashboardAccountRoute = DashboardAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
   id: '/api/checkout',
   path: '/api/checkout',
@@ -158,13 +182,17 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/order': typeof OrderRouteWithChildren
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
   '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/terms': typeof TermsRoute
   '/admin/artists': typeof AdminArtistsRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/revisions': typeof AdminRevisionsRoute
   '/admin/samples': typeof AdminSamplesRoute
   '/api/checkout': typeof ApiCheckoutRoute
+  '/dashboard/account': typeof DashboardAccountRoute
   '/order/success': typeof OrderSuccessRoute
   '/song/$token': typeof SongTokenRoute
   '/admin/': typeof AdminIndexRoute
@@ -180,13 +208,17 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/how-it-works': typeof HowItWorksRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
   '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/terms': typeof TermsRoute
   '/admin/artists': typeof AdminArtistsRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/revisions': typeof AdminRevisionsRoute
   '/admin/samples': typeof AdminSamplesRoute
   '/api/checkout': typeof ApiCheckoutRoute
+  '/dashboard/account': typeof DashboardAccountRoute
   '/order/success': typeof OrderSuccessRoute
   '/song/$token': typeof SongTokenRoute
   '/admin': typeof AdminIndexRoute
@@ -206,13 +238,17 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/order': typeof OrderRouteWithChildren
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
   '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
+  '/terms': typeof TermsRoute
   '/admin/artists': typeof AdminArtistsRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/revisions': typeof AdminRevisionsRoute
   '/admin/samples': typeof AdminSamplesRoute
   '/api/checkout': typeof ApiCheckoutRoute
+  '/dashboard/account': typeof DashboardAccountRoute
   '/order/success': typeof OrderSuccessRoute
   '/song/$token': typeof SongTokenRoute
   '/admin/': typeof AdminIndexRoute
@@ -233,13 +269,17 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/order'
     | '/pricing'
+    | '/privacy'
+    | '/refund'
     | '/samples'
     | '/sign-in'
+    | '/terms'
     | '/admin/artists'
     | '/admin/orders'
     | '/admin/revisions'
     | '/admin/samples'
     | '/api/checkout'
+    | '/dashboard/account'
     | '/order/success'
     | '/song/$token'
     | '/admin/'
@@ -255,13 +295,17 @@ export interface FileRouteTypes {
     | '/faq'
     | '/how-it-works'
     | '/pricing'
+    | '/privacy'
+    | '/refund'
     | '/samples'
     | '/sign-in'
+    | '/terms'
     | '/admin/artists'
     | '/admin/orders'
     | '/admin/revisions'
     | '/admin/samples'
     | '/api/checkout'
+    | '/dashboard/account'
     | '/order/success'
     | '/song/$token'
     | '/admin'
@@ -280,13 +324,17 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/order'
     | '/pricing'
+    | '/privacy'
+    | '/refund'
     | '/samples'
     | '/sign-in'
+    | '/terms'
     | '/admin/artists'
     | '/admin/orders'
     | '/admin/revisions'
     | '/admin/samples'
     | '/api/checkout'
+    | '/dashboard/account'
     | '/order/success'
     | '/song/$token'
     | '/admin/'
@@ -306,8 +354,11 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   OrderRoute: typeof OrderRouteWithChildren
   PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RefundRoute: typeof RefundRoute
   SamplesRoute: typeof SamplesRoute
   SignInRoute: typeof SignInRoute
+  TermsRoute: typeof TermsRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   SongTokenRoute: typeof SongTokenRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -315,6 +366,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
@@ -327,6 +385,20 @@ declare module '@tanstack/react-router' {
       path: '/samples'
       fullPath: '/samples'
       preLoaderRoute: typeof SamplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund': {
+      id: '/refund'
+      path: '/refund'
+      fullPath: '/refund'
+      preLoaderRoute: typeof RefundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -420,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderSuccessRouteImport
       parentRoute: typeof OrderRoute
     }
+    '/dashboard/account': {
+      id: '/dashboard/account'
+      path: '/account'
+      fullPath: '/dashboard/account'
+      preLoaderRoute: typeof DashboardAccountRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/checkout': {
       id: '/api/checkout'
       path: '/api/checkout'
@@ -510,11 +589,13 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface DashboardRouteChildren {
+  DashboardAccountRoute: typeof DashboardAccountRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardOrdersOrderIdRoute: typeof DashboardOrdersOrderIdRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAccountRoute: DashboardAccountRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardOrdersOrderIdRoute: DashboardOrdersOrderIdRoute,
 }
@@ -544,8 +625,11 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   OrderRoute: OrderRouteWithChildren,
   PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
+  RefundRoute: RefundRoute,
   SamplesRoute: SamplesRoute,
   SignInRoute: SignInRoute,
+  TermsRoute: TermsRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   SongTokenRoute: SongTokenRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

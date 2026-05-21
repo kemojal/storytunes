@@ -86,6 +86,12 @@ const FOOTER_SUPPORT = [
   { to: '/order', label: 'Start a song' },
 ] as const
 
+const FOOTER_LEGAL = [
+  { to: '/terms', label: 'Terms of Service' },
+  { to: '/privacy', label: 'Privacy Policy' },
+  { to: '/refund', label: 'Refund Policy' },
+] as const
+
 function FooterCol({
   title,
   links,
@@ -137,25 +143,7 @@ export function SiteFooter() {
           <FooterCol title="Explore" links={FOOTER_EXPLORE} />
           <FooterCol title="Support" links={FOOTER_SUPPORT} />
 
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              Legal
-            </h3>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {['Terms of Service', 'Privacy Policy', 'Refund Policy'].map(
-                (l) => (
-                  <li key={l}>
-                    <a
-                      href="#"
-                      className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ),
-              )}
-            </ul>
-          </div>
+          <FooterCol title="Legal" links={FOOTER_LEGAL} />
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground sm:flex-row">

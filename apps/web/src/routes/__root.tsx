@@ -11,6 +11,8 @@ import PostHogProvider from '../integrations/posthog/provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
+import { CookieConsent } from '#/components/site/cookie-consent'
+import { NotFound } from '#/components/site/not-found'
 
 import appCss from '../styles.css?url'
 
@@ -21,6 +23,7 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  notFoundComponent: NotFound,
   beforeLoad: async () => {
     // Other redirect strategies are possible; see
     // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect
@@ -79,6 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <PostHogProvider>
           {children}
+          <CookieConsent />
           <TanStackDevtools
             config={{
               position: 'bottom-right',

@@ -62,6 +62,20 @@ export const fetchSamples = createServerFn({ method: 'GET' }).handler(() =>
   publicApiFetch<Sample[]>('/api/samples'),
 )
 
+// ---- account / GDPR ----
+type ExportData = {
+  exported_at: string
+  user: { id: string; name: string; email: string; role: string }
+  orders: Array<Record<string, string | number | null>>
+}
+export const exportMyData = createServerFn({ method: 'GET' }).handler(() =>
+  authedApiFetch<ExportData>('/api/me/export'),
+)
+
+export const deleteMyAccount = createServerFn({ method: 'POST' }).handler(() =>
+  authedApiFetch<void>('/api/me', { method: 'DELETE' }),
+)
+
 /** Current user (or null). Safe to call from beforeLoad guards. */
 export const fetchSessionUser = createServerFn({ method: 'GET' }).handler(
   async (): Promise<SessionUser | null> => {

@@ -1,12 +1,13 @@
 """Background jobs (PDD §24). Each task opens its own DB session."""
 
 import logging
+import secrets
 
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.models.auth import User
 from app.models.business import Artist, Lyrics, Order, OrderEvent, SongBrief, SongFile
-from app.services import ai, music
+from app.services import ai, moderation, music
 from app.workers.celery_app import celery
 
 log = logging.getLogger("storytunes.tasks")
@@ -58,12 +59,21 @@ def _safe_email(db, *, order_id, user_id, email, email_type, subject, html) -> N
 
 @celery.task(name="app.workers.tasks.start_production_pipeline")
 def start_production_pipeline(order_id: str) -> None:
-    """Kicked off after payment confirmation. Drives the first AI steps."""
+    """After payment: moderate, then drive AI steps automatically (PDD §31)."""
     with SessionLocal() as db:
         order = db.get(Order, order_id)
         if order is None:
             return
+        result = moderation.moderate_order(order)
+        if not result["allowed"]:
+            order.status = "needs_review"
+            reason = result["reason"] or ", ".join(result["categories"]) or "flagged"
+            _log(db, order_id, "moderation_flagged", reason[:300])
+            db.commit()
+            send_order_confirmation_email.delay(order_id)
+            return  # hold for admin; no auto-generation
         order.status = "story_review"
+        _log(db, order_id, "moderation_passed")
         _log(db, order_id, "production_started")
         db.commit()
 
@@ -103,17 +113,28 @@ def generate_lyrics(order_id: str) -> None:
             return
         brief = db.query(SongBrief).filter(SongBrief.order_id == order_id).first()
         result = ai.generate_lyrics(order, brief.raw_ai_output if brief else {})
-        db.add(
-            Lyrics(
-                order_id=order_id,
-                title=result["title"],
-                lyrics_text=result["lyrics_text"],
-                generated_by="ai",
-            )
+        lyrics = Lyrics(
+            order_id=order_id,
+            title=result["title"],
+            lyrics_text=result["lyrics_text"],
+            generated_by="ai",
         )
-        order.status = "lyrics_review"  # hand off to human admin (PDD §15.5)
+        db.add(lyrics)
         _log(db, order_id, "lyrics_generated")
-        db.commit()
+
+        # Auto-QA the generated lyrics. Clean → auto-approve and proceed (no
+        # human step). Flagged → hand off to admin review.
+        check = moderation.moderate_text(result["lyrics_text"])
+        if check["allowed"]:
+            lyrics.status = "approved"
+            order.status = "music_generation"
+            _log(db, order_id, "lyrics_auto_approved")
+            db.commit()
+            generate_song_audio.delay(order_id)
+        else:
+            order.status = "lyrics_review"
+            _log(db, order_id, "lyrics_flagged", (check["reason"] or "flagged")[:300])
+            db.commit()
 
 
 @celery.task(name="app.workers.tasks.generate_song_audio")
@@ -151,10 +172,20 @@ def generate_song_audio(order_id: str) -> None:
     with SessionLocal() as db:
         db.add(SongFile(order_id=order_id, version=1, **file_fields))
         order = db.get(Order, order_id)
-        if order:
-            order.status = "audio_review"  # human can review, then deliver
         _log(db, order_id, "audio_generated")
-        db.commit()
+        if order and settings.auto_deliver:
+            # Fully automated delivery on the happy path (no admin step).
+            if not order.share_token:
+                order.share_token = secrets.token_urlsafe(16)
+            order.status = "delivered"
+            _log(db, order_id, "delivered")
+            db.commit()
+            share_url = f"{settings.web_origin}/song/{order.share_token}"
+            send_song_delivery_email.delay(order_id, share_url)
+        else:
+            if order:
+                order.status = "audio_review"  # optional human review
+            db.commit()
 
 
 @celery.task(name="app.workers.tasks.send_order_confirmation_email")
@@ -172,7 +203,16 @@ def send_order_confirmation_email(order_id: str) -> None:
             customer_name=customer_name,
             artist_name=artist_name,
             recipient_name=order.recipient_name,
+            relationship=order.relationship,
             occasion=order.occasion,
+            mood=order.mood,
+            genre=order.genre,
+            package_type=order.package_type,
+            delivery_date=(
+                order.expected_delivery_date.strftime("%b %-d, %Y")
+                if order.expected_delivery_date
+                else None
+            ),
             order_number=order.order_number,
         )
         _safe_email(

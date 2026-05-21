@@ -48,6 +48,11 @@ class Settings(BaseSettings):
     # Run Celery tasks inline (no broker) — used for local flow testing.
     celery_eager: bool = False
 
+    # Automation: screen orders/lyrics + auto-deliver clean songs (no manual
+    # admin step on the happy path). Flagged items route to admin review.
+    moderation_enabled: bool = True
+    auto_deliver: bool = True
+
     @property
     def has_gemini(self) -> bool:
         return bool(self.gemini_api_key)

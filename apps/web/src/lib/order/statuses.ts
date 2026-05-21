@@ -3,6 +3,7 @@ export const ORDER_STATUSES = [
   'draft',
   'pending_payment',
   'paid',
+  'needs_review',
   'story_review',
   'lyrics_generation',
   'lyrics_review',
