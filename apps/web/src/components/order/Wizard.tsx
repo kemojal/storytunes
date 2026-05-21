@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '@tanstack/react-store'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { back, next, validateStep, wizardStore } from '#/lib/order/store'
@@ -35,9 +35,21 @@ export function Wizard() {
   const { data: session } = useSession()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // Client-only: the wizard store is interactive/per-user, so don't SSR it
+  // (avoids a hydration mismatch from server-shared store state).
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   const step = STEPS[stepIndex]
   const isLast = stepIndex === STEPS.length - 1
+
+  if (!mounted) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16 text-center text-muted-foreground">
+        Loading…
+      </div>
+    )
+  }
 
   async function payAndPlaceOrder() {
     if (!validateStep(stepIndex)) return

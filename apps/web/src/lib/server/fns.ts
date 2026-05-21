@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { authedApiFetch, getServerSession, publicApiFetch } from './api'
+import { stripe } from '#/lib/stripe'
 import type {
   Artist,
   Order,
@@ -9,6 +10,40 @@ import type {
   SessionUser,
   SharePage,
 } from '#/lib/types'
+
+const ORIGIN = process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'
+
+/** Open a Stripe Checkout for an existing unpaid order (resume payment). */
+export const startOrderCheckout = createServerFn({ method: 'POST' })
+  .inputValidator((orderId: string) => orderId)
+  .handler(async ({ data }): Promise<{ url: string | null }> => {
+    const session = await getServerSession()
+    if (!session?.user) throw new Error('UNAUTHORIZED')
+    const order = await authedApiFetch<OrderDetail>(`/api/orders/${data}/detail`)
+    if (!['pending_payment', 'draft'].includes(order.status)) {
+      throw new Error('This order is not awaiting payment.')
+    }
+    const customerId = (session.user as { stripeCustomerId?: string }).stripeCustomerId
+    const checkout = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: order.currency,
+            unit_amount: order.price_cents,
+            product_data: { name: `StoryTunes custom song — ${order.order_number}` },
+          },
+        },
+      ],
+      ...(customerId ? { customer: customerId } : {}),
+      client_reference_id: order.id,
+      metadata: { order_id: order.id },
+      success_url: `${ORIGIN}/order/success`,
+      cancel_url: `${ORIGIN}/dashboard/orders/${order.id}`,
+    })
+    return { url: checkout.url }
+  })
 
 export const fetchSharePage = createServerFn({ method: 'GET' })
   .inputValidator((token: string) => token)

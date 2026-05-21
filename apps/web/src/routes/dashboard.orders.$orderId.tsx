@@ -1,6 +1,11 @@
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { fetchDownloadUrl, fetchOrderDetail, requestRevision } from '#/lib/server/fns'
+import {
+  fetchDownloadUrl,
+  fetchOrderDetail,
+  requestRevision,
+  startOrderCheckout,
+} from '#/lib/server/fns'
 import { StatusBadge, humanizeStatus } from '#/components/order/status'
 import { formatUsd, titleCase } from '#/lib/order/constants'
 import { AudioPlayer } from '#/components/audio-player'
@@ -17,13 +22,35 @@ function OrderDetailPage() {
   const router = useRouter()
   const [revMsg, setRevMsg] = useState('')
   const [busy, setBusy] = useState(false)
+  const [payError, setPayError] = useState<string | null>(null)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
 
   const latestLyrics = order.lyrics[0]
   const finals = order.files.filter((f) => f.is_final)
   const audioFile = finals.find((f) => f.file_type === 'mp3' || f.file_type === 'wav')
   const isDelivered = ['delivered', 'completed'].includes(order.status)
+  const needsPayment = ['pending_payment', 'draft'].includes(order.status)
   const canRevise = ['delivered', 'completed'].includes(order.status)
+
+  async function payNow() {
+    setBusy(true)
+    setPayError(null)
+    try {
+      const { url } = await startOrderCheckout({ data: order.id })
+      if (url) window.location.href = url
+      else setPayError('Checkout could not be created.')
+    } catch (e) {
+      setPayError(
+        e instanceof Error && /api key/i.test(e.message)
+          ? 'Payments aren’t configured (missing Stripe key).'
+          : e instanceof Error
+            ? e.message
+            : 'Could not start checkout.',
+      )
+    } finally {
+      setBusy(false)
+    }
+  }
 
   // Fetch a presigned URL for the final audio so it plays inline.
   useEffect(() => {
@@ -120,6 +147,21 @@ function OrderDetailPage() {
               )}
             </div>
           </div>
+        </section>
+      ) : needsPayment ? (
+        <section className="rounded-3xl border border-gold/40 bg-card/70 p-6 text-center shadow-soft sm:p-8">
+          <h2 className="font-display text-xl">Almost there — complete your payment</h2>
+          <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
+            {order.recipient_name}’s song is ready to enter production as soon as
+            payment is confirmed.
+          </p>
+          <div className="mt-5 flex items-center justify-center gap-3">
+            <span className="font-display text-2xl">{formatUsd(order.price_cents)}</span>
+            <Button onClick={payNow} disabled={busy} size="lg" className="rounded-full px-7">
+              {busy ? 'Redirecting…' : 'Complete payment →'}
+            </Button>
+          </div>
+          {payError && <p className="mt-3 text-sm text-destructive">{payError}</p>}
         </section>
       ) : (
         <section className="rounded-3xl border border-border/60 bg-card/70 p-6 text-center shadow-soft">

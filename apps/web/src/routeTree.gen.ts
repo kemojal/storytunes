@@ -19,6 +19,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ArtistsRouteImport } from './routes/artists'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OrderIndexRouteImport } from './routes/order.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SongTokenRouteImport } from './routes/song.$token'
@@ -81,6 +82,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const OrderIndexRoute = OrderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OrderRoute,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/song/$token': typeof SongTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/order/': typeof OrderIndexRoute
   '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
@@ -172,7 +179,6 @@ export interface FileRoutesByTo {
   '/artists': typeof ArtistsRoute
   '/faq': typeof FaqRoute
   '/how-it-works': typeof HowItWorksRoute
-  '/order': typeof OrderRouteWithChildren
   '/pricing': typeof PricingRoute
   '/samples': typeof SamplesRoute
   '/sign-in': typeof SignInRoute
@@ -185,6 +191,7 @@ export interface FileRoutesByTo {
   '/song/$token': typeof SongTokenRoute
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/order': typeof OrderIndexRoute
   '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
@@ -210,6 +217,7 @@ export interface FileRoutesById {
   '/song/$token': typeof SongTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/order/': typeof OrderIndexRoute
   '/admin/orders/$orderId': typeof AdminOrdersOrderIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/orders/$orderId': typeof DashboardOrdersOrderIdRoute
@@ -236,6 +244,7 @@ export interface FileRouteTypes {
     | '/song/$token'
     | '/admin/'
     | '/dashboard/'
+    | '/order/'
     | '/admin/orders/$orderId'
     | '/api/auth/$'
     | '/dashboard/orders/$orderId'
@@ -245,7 +254,6 @@ export interface FileRouteTypes {
     | '/artists'
     | '/faq'
     | '/how-it-works'
-    | '/order'
     | '/pricing'
     | '/samples'
     | '/sign-in'
@@ -258,6 +266,7 @@ export interface FileRouteTypes {
     | '/song/$token'
     | '/admin'
     | '/dashboard'
+    | '/order'
     | '/admin/orders/$orderId'
     | '/api/auth/$'
     | '/dashboard/orders/$orderId'
@@ -282,6 +291,7 @@ export interface FileRouteTypes {
     | '/song/$token'
     | '/admin/'
     | '/dashboard/'
+    | '/order/'
     | '/admin/orders/$orderId'
     | '/api/auth/$'
     | '/dashboard/orders/$orderId'
@@ -374,6 +384,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/order/': {
+      id: '/order/'
+      path: '/'
+      fullPath: '/order/'
+      preLoaderRoute: typeof OrderIndexRouteImport
+      parentRoute: typeof OrderRoute
     }
     '/dashboard/': {
       id: '/dashboard/'
@@ -508,10 +525,12 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 interface OrderRouteChildren {
   OrderSuccessRoute: typeof OrderSuccessRoute
+  OrderIndexRoute: typeof OrderIndexRoute
 }
 
 const OrderRouteChildren: OrderRouteChildren = {
   OrderSuccessRoute: OrderSuccessRoute,
+  OrderIndexRoute: OrderIndexRoute,
 }
 
 const OrderRouteWithChildren = OrderRoute._addFileChildren(OrderRouteChildren)

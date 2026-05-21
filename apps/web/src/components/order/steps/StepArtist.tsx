@@ -3,28 +3,19 @@ import { useQuery } from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
 import { useSearch } from '@tanstack/react-router'
 import { setField, wizardStore } from '#/lib/order/store'
-import { apiFetch } from '#/lib/api'
+import { fetchArtists } from '#/lib/server/fns'
 import { Field, OptionChip, StepHeader } from '../primitives'
 import { cn } from '#/lib/utils'
-
-type Artist = {
-  id: string
-  slug: string
-  name: string
-  voice_description: string | null
-  best_for: string[] | null
-  genres: string[] | null
-  image_url: string | null
-}
 
 export function StepArtist() {
   const data = useStore(wizardStore, (s) => s.data)
   const { artist: artistParam } = useSearch({ from: '/order' })
   const preselected = useRef(false)
 
+  // Use the server fn (same-origin, hits the api server-side) — no CORS/port issues.
   const { data: artists, isLoading, isError } = useQuery({
     queryKey: ['artists'],
-    queryFn: () => apiFetch<Artist[]>('/api/artists'),
+    queryFn: () => fetchArtists(),
     retry: false,
   })
 
@@ -61,7 +52,23 @@ export function StepArtist() {
 
       {data.artist_mode === 'pick' && (
         <Field>
-          {isLoading && <p className="text-sm text-muted-foreground">Loading artists…</p>}
+          {isLoading && (
+            <div className="grid gap-3 md:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex gap-3 rounded-xl border border-border/60 p-4"
+                >
+                  <div className="size-12 shrink-0 animate-pulse rounded-full bg-muted" />
+                  <div className="flex-1 space-y-2 py-1">
+                    <div className="h-3.5 w-1/3 animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-3/4 animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-1/2 animate-pulse rounded bg-muted" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {isError && (
             <p className="text-sm text-muted-foreground">
               Couldn't load artists (is the api running?). You can still continue with
